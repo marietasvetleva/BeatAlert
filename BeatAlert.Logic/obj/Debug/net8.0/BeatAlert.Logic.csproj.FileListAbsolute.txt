@@ -1,0 +1,15 @@
+/Users/marietasvetleva/RiderProjects/beatalert/BeatAlert.Logic/bin/Debug/net8.0/BeatAlert.Logic.deps.json
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/bin/Debug/net8.0/BeatAlert.Logic.dll
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/bin/Debug/net8.0/BeatAlert.Logic.pdb
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/bin/Debug/net8.0/BeatAlert.DAL.dll
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/bin/Debug/net8.0/BeatAlert.DAL.pdb
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.csproj.AssemblyReference.cache
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.GeneratedMSBuildEditorConfig.editorconfig
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.AssemblyInfoInputs.cache
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.AssemblyInfo.cs
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.csproj.CoreCompileInputs.cache
+/Users/marietasvetleva/RiderProjects/beatalert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.csproj.CopyComplete
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.dll
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/refint/BeatAlert.Logic.dll
+/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/obj/Debug/net8.0/BeatAlert.Logic.pdb
+/Users/marietasvetleva/RiderProjects/beatalert/BeatAlert.Logic/obj/Debug/net8.0/ref/BeatAlert.Logic.dll

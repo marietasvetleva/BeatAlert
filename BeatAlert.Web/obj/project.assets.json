@@ -1,0 +1,110 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "BeatAlert.DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/BeatAlert.DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BeatAlert.DAL.dll": {}
+        }
+      },
+      "BeatAlert.Logic/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "BeatAlert.DAL": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/BeatAlert.Logic.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BeatAlert.Logic.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BeatAlert.DAL/1.0.0": {
+      "type": "project",
+      "path": "../BeatAlert.DAL/BeatAlert.DAL.csproj",
+      "msbuildProject": "../../BeatAlert/BeatAlert.DAL/BeatAlert.DAL.csproj"
+    },
+    "BeatAlert.Logic/1.0.0": {
+      "type": "project",
+      "path": "../BeatAlert.Logic/BeatAlert.Logic.csproj",
+      "msbuildProject": "../../BeatAlert/BeatAlert.Logic/BeatAlert.Logic.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "BeatAlert.Logic >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/marietasvetleva/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Web/BeatAlert.Web.csproj",
+      "projectName": "BeatAlert.Web",
+      "projectPath": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Web/BeatAlert.Web.csproj",
+      "packagesPath": "/Users/marietasvetleva/.nuget/packages/",
+      "outputPath": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Web/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/marietasvetleva/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/BeatAlert.Logic.csproj": {
+              "projectPath": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/BeatAlert.Logic.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.121/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

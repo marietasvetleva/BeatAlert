@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatAlert.Web", "BeatAlert.Web\BeatAlert.Web.csproj", "{AF74471B-B7D2-4597-8918-001CD998DDA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatAlert.Logic", "BeatAlert.Logic\BeatAlert.Logic.csproj", "{D4FBA37C-7EF8-46CA-B44E-7E53E94C4412}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatAlert.DAL", "BeatAlert.DAL\BeatAlert.DAL.csproj", "{1B5CB204-B08F-4CA7-9127-1A3D0E868A52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF74471B-B7D2-4597-8918-001CD998DDA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF74471B-B7D2-4597-8918-001CD998DDA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF74471B-B7D2-4597-8918-001CD998DDA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF74471B-B7D2-4597-8918-001CD998DDA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4FBA37C-7EF8-46CA-B44E-7E53E94C4412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4FBA37C-7EF8-46CA-B44E-7E53E94C4412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4FBA37C-7EF8-46CA-B44E-7E53E94C4412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4FBA37C-7EF8-46CA-B44E-7E53E94C4412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B5CB204-B08F-4CA7-9127-1A3D0E868A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B5CB204-B08F-4CA7-9127-1A3D0E868A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B5CB204-B08F-4CA7-9127-1A3D0E868A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B5CB204-B08F-4CA7-9127-1A3D0E868A52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
