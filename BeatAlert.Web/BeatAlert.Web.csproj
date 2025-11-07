@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BeatAlert.DAL\BeatAlert.DAL.csproj" />
       <ProjectReference Include="..\BeatAlert.Logic\BeatAlert.Logic.csproj" />
     </ItemGroup>
 

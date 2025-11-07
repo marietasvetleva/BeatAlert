@@ -25,7 +25,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/BeatAlert.Logic.csproj": {
+                "projectPath": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/BeatAlert.Logic.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -37,6 +41,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[7.0.0-preview2.25289.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -78,11 +88,7 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {
-              "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.DAL/BeatAlert.DAL.csproj": {
-                "projectPath": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.DAL/BeatAlert.DAL.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -136,6 +142,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.DAL/BeatAlert.DAL.csproj": {
+                "projectPath": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.DAL/BeatAlert.DAL.csproj"
+              },
               "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/BeatAlert.Logic.csproj": {
                 "projectPath": "/Users/marietasvetleva/RiderProjects/BeatAlert/BeatAlert.Logic/BeatAlert.Logic.csproj"
               }

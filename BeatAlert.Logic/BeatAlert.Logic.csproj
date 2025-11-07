@@ -5,9 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+    
 
     <ItemGroup>
-      <ProjectReference Include="..\BeatAlert.DAL\BeatAlert.DAL.csproj" />
+      <Folder Include="Classes\" />
     </ItemGroup>
 
 </Project>

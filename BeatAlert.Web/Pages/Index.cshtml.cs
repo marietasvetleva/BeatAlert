@@ -1,18 +1,25 @@
-using Microsoft.AspNetCore.Mvc;
+using BeatAlert.Logic.Services;
+using BeatAlert.Logic.Classes;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using BeatAlert.Logic.Interfaces;
 
-namespace BeatAlert.Web.Pages;
-
-public class IndexModel : PageModel
+namespace BeatAlert.Presentation.Pages
 {
-    private readonly ILogger<IndexModel> _logger;
-
-    public IndexModel(ILogger<IndexModel> logger)
+    public class IndexModel : PageModel
     {
-        _logger = logger;
-    }
+        private readonly IHomeService _homeService;
 
-    public void OnGet()
-    {
+        public List<Album> Albums { get; set; }
+
+        public IndexModel(IHomeService homeService)
+        {
+            _homeService = homeService;
+        }
+
+        public void OnGet()
+        {
+            Albums = _homeService.GetAlbums();
+        }
     }
 }
