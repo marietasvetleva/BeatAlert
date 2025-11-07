@@ -1,4 +1,4 @@
-namespace BeatAlert.Logic.Classes;
+namespace BeatAlert.Logic.Models;
 
 public class Venue
 {

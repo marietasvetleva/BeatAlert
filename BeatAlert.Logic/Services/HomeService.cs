@@ -1,4 +1,4 @@
-using BeatAlert.Logic.Classes;
+using BeatAlert.Logic.Models;
 using BeatAlert.Logic.Interfaces;
 
 namespace BeatAlert.Logic.Services;

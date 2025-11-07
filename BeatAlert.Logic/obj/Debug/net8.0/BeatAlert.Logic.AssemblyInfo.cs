@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BeatAlert.Logic")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31e85afec9b89969718ecf5cc02b0adc8aeaa771")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e7c266a4c15d89dbce6a497d5a092640daca297")]
 [assembly: System.Reflection.AssemblyProductAttribute("BeatAlert.Logic")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BeatAlert.Logic")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

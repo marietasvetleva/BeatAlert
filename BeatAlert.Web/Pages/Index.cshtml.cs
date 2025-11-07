@@ -1,5 +1,5 @@
 using BeatAlert.Logic.Services;
-using BeatAlert.Logic.Classes;
+using BeatAlert.Logic.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using BeatAlert.Logic.Interfaces;
