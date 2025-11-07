@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/BeatAlert.Web.props" />
-</Project>
