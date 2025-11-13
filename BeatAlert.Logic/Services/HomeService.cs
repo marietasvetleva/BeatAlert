@@ -1,3 +1,4 @@
+using BeatAlert.Logic.DTOs;
 using BeatAlert.Logic.Models;
 using BeatAlert.Logic.Interfaces;
 
@@ -13,8 +14,16 @@ public class HomeService : IHomeService
         _albumRepo = albumRepo;
     }
 
-    public List<Album> GetAlbums()
+    public List<AlbumDTO> GetAlbums()
     {
-        return _albumRepo.GetAllAlbums();
+        var albums = _albumRepo.GetAllAlbums();
+        return albums.Select(a => new AlbumDTO
+        {
+            Title = a.Title,
+            ReleaseDate = a.ReleaseDate,
+            Duration = a.Duration,
+            CoverImage = a. CoverImage
+        }).ToList();
     }
+
 }

@@ -1,42 +1,73 @@
-﻿@page
-@model BeatAlert.Presentation.Pages.IndexModel
+@page
+@model BeatAlert.Web.Pages.Index
+
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Start Up";
 }
 
-<header class="topbar">
-  
-  <form method="get" action="/Search" class="search">
-    <input name="q" placeholder="Search" aria-label="Search" />
-  </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
 
-  <div class="icons">
-    <a href="/Notifications" aria-label="Notifications" title="Notifications">🔔</a>
-    <a href="/Profile" aria-label="Profile" title="Profile">👤</a>
-  </div>
+<!-- Header -->
+<header>
+    <div>
+        <h2>BeatAlert</h2>
+    </div>
+    <nav>
+        <a href="#">Navigation Link 1</a>
+        <a href="#">Navigation Link 2</a>
+        <input type="search" placeholder="Search" />
+        <button>Log In</button>
+        <button>Sign Up</button>
+    </nav>
 </header>
 
-<main class="container">
-  <div class="welcome">
-    <h2>Welcome back!</h2>
-  </div>
-
-  @* New Releases *@
-  
-  <section class="section">
-    <h3>New Album Releases</h3>
-    <div class="grid">
-      @if (Model.Albums?.Any() == true)
-      {
-        foreach (var r in Model.Albums)
-        {
-          <partial name="_ReleaseCard" model="@r" />
-        }
-      }
-      else
-      {
-        <p>No albums found.</p>
-      }
+<!-- Hero Section -->
+<section>
+    <div>
+        <h1>Headline</h1>
+        <p>Subtext</p>
+        <button>Start Now</button>
     </div>
-  </section>
-</main>
+    <div>
+        <img src="#" alt="Placeholder image" width="400" height="250" />
+    </div>
+</section>
+
+<!-- Features Section -->
+<section>
+    <h3>Features section</h3>
+    <div>
+        <img src="#" alt="Feature 1 icon" width="60" height="60" />
+        <p>Feature 1</p>
+    </div>
+    <div>
+        <img src="#" alt="Feature 2 icon" width="60" height="60" />
+        <p>Feature 2</p>
+    </div>
+    <div>
+        <img src="#" alt="Feature 3 icon" width="60" height="60" />
+        <p>Feature 3</p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div>
+        <h3>BeatAlert</h3>
+    </div>
+    <div>
+        <a href="#">About</a> |
+        <a href="#">Contact</a>
+    </div>
+    <small>Copyright © 2025 Company name</small>
+</footer>
+
+</body>
+</html>

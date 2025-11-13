@@ -1,7 +1,7 @@
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Models;
 using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
+
 
 namespace BeatAlert.DAL.Repositories
 {

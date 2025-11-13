@@ -1,5 +1,3 @@
-using BeatAlert.Logic.Models;
-using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Services;
 
 namespace BeatAlert.Tests.Services;
