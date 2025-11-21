@@ -1,0 +1,61 @@
+@page
+@model BeatAlert.Web.Pages.Search
+
+@{
+    Layout = null;
+}
+
+<h2>Results for "@Model.Result.Query"</h2>
+
+@if (Model.Result.Artists.Any())
+{
+    <h3>Artists</h3>
+    <div class="row">
+        @foreach (var artist in Model.Result.Artists)
+        {
+            <div class="col-3 text-center">
+                <img src="@artist.ImageUrl" class="img-fluid rounded" />
+                <p>@artist.StageName</p>
+            </div>
+        }
+    </div>
+}
+
+@if (Model.Result.Albums.Any())
+{
+    <h3>Albums</h3>
+    <div class="row">
+        @foreach (var album in Model.Result.Albums)
+        {
+            <div class="col-3 text-center">
+                <img src="@album.CoverImageUrl" class="img-fluid rounded" />
+                <p>@album.Title</p>
+            </div>
+        }
+    </div>
+}
+
+@if (Model.Result.Songs.Any())
+{
+    <h3>Songs</h3>
+    <ul>
+        @foreach (var song in Model.Result.Songs)
+        {
+            <li>@song.Title</li>
+        }
+    </ul>
+}
+
+@if (Model.Result.Tours.Any())
+{
+    <h3>Tours</h3>
+    <div class="row">
+        @foreach (var tour in Model.Result.Tours)
+        {
+            <div class="col-3 text-center">
+                <img src="@tour.PromoImageUrl" class="img-fluid rounded" />
+                <p>@tour.TourName</p>
+            </div>
+        }
+    </div>
+}

@@ -12,8 +12,14 @@ var connectionString =
     ?? throw new InvalidOperationException("Missing ConnectionStrings:DefaultConnection");
 
 builder.Services.AddScoped<IAlbumRepository>(_ => new AlbumRepository(connectionString));
-builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IArtistRepository>(_ => new ArtistRepository(connectionString));
+builder.Services.AddScoped<ISongRepository>(_ => new SongRepository(connectionString));
+builder.Services.AddScoped<IShowRepository>(_ => new ShowRepository(connectionString));
+builder.Services.AddScoped<ITourRepository>(_ => new TourRepository(connectionString));
 
+
+builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IGlobalSearchService, GlobalSearchService>();
 var app = builder.Build();
 
 // Pipeline

@@ -2,7 +2,7 @@ namespace BeatAlert.Logic.Models;
 
 public class Venue
 {
-    public int Id { get; init; }
+    public int VenueId { get; init; }
     public string Name { get; init; }
     public string Address { get; init; }
     public string City { get; init; }
@@ -11,4 +11,5 @@ public class Venue
     public string ImageUrl { get; init; }
     public string ContactInfo { get; init; }
     
+    public List<Show> Shows { get; init; } = new();
 }

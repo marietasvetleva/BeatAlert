@@ -1,18 +1,8 @@
 @page
 @model BeatAlert.Web.Pages.Index
-
 @{
     ViewData["Title"] = "Start Up";
 }
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
-</head>
-<body>
 
 <!-- Header -->
 <header>
@@ -22,52 +12,49 @@
     <nav>
         <a href="#">Navigation Link 1</a>
         <a href="#">Navigation Link 2</a>
-        <input type="search" placeholder="Search" />
-        <button>Log In</button>
-        <button>Sign Up</button>
+        <button class="btn btn-outline-primary">Log In</button>
+        <button class="btn btn-primary">Sign Up</button>
     </nav>
 </header>
 
 <!-- Hero Section -->
-<section>
+<section class="mt-5">
     <div>
         <h1>Headline</h1>
         <p>Subtext</p>
-        <button>Start Now</button>
+        <button class="btn btn-success">Start Now</button>
     </div>
-    <div>
-        <img src="#" alt="Placeholder image" width="400" height="250" />
+
+    <div class="mt-3">
+        <img src="#" alt="Placeholder image" class="img-fluid rounded" />
     </div>
 </section>
 
 <!-- Features Section -->
-<section>
+<section class="mt-5">
     <h3>Features section</h3>
-    <div>
-        <img src="#" alt="Feature 1 icon" width="60" height="60" />
-        <p>Feature 1</p>
-    </div>
-    <div>
-        <img src="#" alt="Feature 2 icon" width="60" height="60" />
-        <p>Feature 2</p>
-    </div>
-    <div>
-        <img src="#" alt="Feature 3 icon" width="60" height="60" />
-        <p>Feature 3</p>
+    <div class="row text-center mt-3">
+        <div class="col">
+            <img src="#" width="60" height="60" />
+            <p>Feature 1</p>
+        </div>
+        <div class="col">
+            <img src="#" width="60" height="60" />
+            <p>Feature 2</p>
+        </div>
+        <div class="col">
+            <img src="#" width="60" height="60" />
+            <p>Feature 3</p>
+        </div>
     </div>
 </section>
 
 <!-- Footer -->
-<footer>
-    <div>
-        <h3>BeatAlert</h3>
-    </div>
-    <div>
+<footer class="text-center mt-5">
+    <h3>BeatAlert</h3>
+    <p>
         <a href="#">About</a> |
         <a href="#">Contact</a>
-    </div>
-    <small>Copyright © 2025 Company name</small>
+    </p>
+    <small>© 2025 Company name</small>
 </footer>
-
-</body>
-</html>

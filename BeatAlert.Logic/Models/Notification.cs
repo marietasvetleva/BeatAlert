@@ -2,7 +2,7 @@ namespace BeatAlert.Logic.Models;
 
 public class Notification
 {
-    public int Id { get; init; }
+    public int NotificationId { get; init; }
     public string Title { get; init; }
     public string Description { get; init; }
     public DateTime DeliveredAt { get; init; }

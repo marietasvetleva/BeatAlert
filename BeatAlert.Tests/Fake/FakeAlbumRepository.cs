@@ -1,7 +1,7 @@
 using BeatAlert.Logic.Models;
 using BeatAlert.Logic.Interfaces;
 
-namespace BeatAlert.Tests;
+namespace BeatAlert.Tests.Fake;
 
 public class FakeAlbumRepository : IAlbumRepository
 {
@@ -10,13 +10,21 @@ public class FakeAlbumRepository : IAlbumRepository
         // fake data
         return new List<Album>
         {
-            new Album { Id = 1, Title = "Test Album 1", ReleaseDate = DateTime.Now.AddDays(-10) },
-            new Album { Id = 2, Title = "Test Album 2", ReleaseDate = DateTime.Now.AddDays(-50) }
+            new Album { AlbumId = 1, Title = "Test Album 1", ReleaseDate = DateTime.Now.AddDays(-10) },
+            new Album { AlbumId = 2, Title = "Test Album 2", ReleaseDate = DateTime.Now.AddDays(-50) }
         };
     }
 
     public Album GetAlbumById(int id)
     {
-        return new Album { Id = id, Title = "Fake Album", ReleaseDate = DateTime.Now };
+        return new Album { AlbumId = id, Title = "Fake Album", ReleaseDate = DateTime.Now };
+    }
+    
+    public List<Album> SearchAlbum(string query)
+    {
+        // This is not used in your tests → dummy data is fine
+        return new List<Album>();
     }
 }
+
+

@@ -2,7 +2,7 @@
 
 public class MusicLover
 {
-    public int Id { get; init; }
+    public int MusicLoverId { get; init; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
@@ -12,5 +12,7 @@ public class MusicLover
     
     private string PasswordHash { get; set; }
     
-    
+    public List<Artist> FollowedArtists { get; init; } = new();
+    public List<Song> LikedSongs { get; init; } = new();
+    public List<Show> SavedShows { get; init; } = new();
 }

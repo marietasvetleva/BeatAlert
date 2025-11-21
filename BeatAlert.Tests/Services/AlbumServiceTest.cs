@@ -1,4 +1,5 @@
 using BeatAlert.Logic.Services;
+using BeatAlert.Tests.Fake;
 
 namespace BeatAlert.Tests.Services;
 

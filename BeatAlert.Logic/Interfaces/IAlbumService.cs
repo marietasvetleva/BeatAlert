@@ -4,4 +4,6 @@ public interface IAlbumService
 {
     bool IsNewRelease(DateTime releaseDate);
     
+    
+    
 }
