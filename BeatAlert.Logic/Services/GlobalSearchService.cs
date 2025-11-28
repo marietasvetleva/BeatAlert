@@ -17,7 +17,8 @@ public class GlobalSearchService : IGlobalSearchService
         IArtistRepository artistRepository,
         IAlbumRepository albumRepository,
         ISongRepository songRepository,
-        ITourRepository tourRepository)
+        ITourRepository tourRepository
+    )
     {
         _artistRepository = artistRepository;
         _albumRepository = albumRepository;

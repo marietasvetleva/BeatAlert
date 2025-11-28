@@ -4,7 +4,6 @@ using BeatAlert.Logic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Services (ADD ALL BEFORE Build)
 builder.Services.AddRazorPages();
 
 var connectionString =
@@ -16,10 +15,13 @@ builder.Services.AddScoped<IArtistRepository>(_ => new ArtistRepository(connecti
 builder.Services.AddScoped<ISongRepository>(_ => new SongRepository(connectionString));
 builder.Services.AddScoped<IShowRepository>(_ => new ShowRepository(connectionString));
 builder.Services.AddScoped<ITourRepository>(_ => new TourRepository(connectionString));
+builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
 
 
 builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<IGlobalSearchService, GlobalSearchService>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+
 var app = builder.Build();
 
 // Pipeline
