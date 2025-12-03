@@ -14,8 +14,12 @@
         @foreach (var artist in Model.Result.Artists)
         {
             <div class="col-3 text-center">
-                <img src="@artist.ImageUrl" class="img-fluid rounded" />
-                <p>@artist.StageName</p>
+                <a asp-page="/Artist"
+                   asp-route-id="@artist.ArtistId"
+                   class="text-decoration-none text-reset">
+                    <img src="@artist.ImageUrl" class="img-fluid rounded" />
+                    <p class="mt-2">@artist.StageName</p>
+                </a>
             </div>
         }
     </div>
@@ -23,13 +27,17 @@
 
 @if (Model.Result.Albums.Any())
 {
-    <h3>Albums</h3>
+    <h3>Artists</h3>
     <div class="row">
-        @foreach (var album in Model.Result.Albums)
+        @foreach (var artist in Model.Result.Artists)
         {
             <div class="col-3 text-center">
-                <img src="@album.CoverImageUrl" class="img-fluid rounded" />
-                <p>@album.Title</p>
+                <a asp-page="/Artist"
+                   asp-route-id="@artist.ArtistId"
+                   class="text-decoration-none text-reset">
+                    <img src="@artist.ImageUrl" class="img-fluid rounded" />
+                    <p class="mt-2">@artist.StageName</p>
+                </a>
             </div>
         }
     </div>

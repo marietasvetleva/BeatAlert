@@ -1,0 +1,61 @@
+@page
+@model BeatAlert.Web.Pages.Artist
+
+@{
+    Layout = null;
+}
+
+<header>
+    <div>
+        <input type="text" placeholder="Search" />
+        <span>🔔</span>
+        <span>👤</span>
+    </div>
+</header>
+
+
+<section>
+    <h1>@Model.ArtistDetails.StageName</h1>
+
+    <form method="post">
+        <button type="submit">Follow</button>
+    </form>
+</section>
+
+
+<main>
+    
+    <section>
+        <div>
+            <h2>Biography</h2>
+            <p>@Model.ArtistDetails.Biography</p>
+        </div>
+    </section>
+    
+    <section>
+        <div>
+            <h2>Albums</h2>
+            <ul>
+                @foreach (var album in Model.ArtistDetails.Albums)
+                {
+                    <li>
+                        <strong>@album.Title</strong>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div>
+            <h2>Tours</h2>
+            <ul>
+                @foreach (var tour in Model.ArtistDetails.Tours)
+                {
+                    <li>
+                    <strong>@tour.Name</strong>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+</main>

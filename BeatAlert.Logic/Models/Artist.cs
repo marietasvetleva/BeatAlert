@@ -8,12 +8,10 @@ public class Artist
     public string BannerUrl { get; init; }
     public string Biography { get; init; }
     
-    public List<Album> Albums { get; init; } = new();
-
-    // Artist <-> Song (via Song_Artist)
+    public List<Album> Albums { get; set; } = new();
+    
     public List<Song> Songs { get; init; } = new();
-
-    // Artist 1 -> many Tour (Tour.artist_id)
+    
     public List<Tour> Tours { get; init; } = new();
     
 }

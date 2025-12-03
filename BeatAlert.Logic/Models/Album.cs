@@ -9,8 +9,6 @@ public class Album
     public string CoverImage { get; init; }
     
     public List<Artist> Artists { get; init; } = new();
-
-    // 🔊 Tracks in this album
     public List<Song> Songs { get; init; } = new();
     
 }
