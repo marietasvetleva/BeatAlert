@@ -1,0 +1,25 @@
+@page
+@model BeatAlert.Web.Pages.Login
+
+<h2>Login</h2>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div style="color: red; margin-bottom: 10px;">
+        @Model.ErrorMessage
+    </div>
+}
+
+<form method="post">
+    <div>
+        <label for="identifier">Email or Username</label>
+        <input id="identifier" name="Input.Identifier" type="text" value="@Model.Input.Identifier" />
+    </div>
+
+    <div style="margin-top: 10px;">
+        <label for="password">Password</label>
+        <input id="password" name="Input.Password" type="password" />
+    </div>
+
+    <button type="submit" style="margin-top: 15px;">Login</button>
+</form>

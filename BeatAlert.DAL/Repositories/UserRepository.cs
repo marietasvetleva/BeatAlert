@@ -48,7 +48,7 @@ public class UserRepository : IUserRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             var query =
-                "SELECT music_lover_id, first_name, last_name, email, password_hash, username, home_city FROM MusicLover WHERE email = @Email";
+                "SELECT music_lover_id, first_name, last_name, email, password_hash, username, home_city, avatar_urlFROM MusicLover WHERE email = @Email";
 
             using (var command = new SqlCommand(query, connection))
             {
@@ -88,7 +88,7 @@ public class UserRepository : IUserRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             var query =
-                "SELECT music_lover_id, first_name, last_name, email, password_hash, username, home_city FROM MusicLover WHERE username = @Username";
+                "SELECT music_lover_id, first_name, last_name, email, password_hash, username, home_city, avatar_url FROM MusicLover WHERE username = @Username";
 
             using (var command = new SqlCommand(query, connection))
             {

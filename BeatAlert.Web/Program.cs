@@ -22,6 +22,8 @@ builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<IGlobalSearchService, GlobalSearchService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<ArtistService>();
+builder.Services.AddScoped<LoginService>();
+
 var app = builder.Build();
 
 // Pipeline
