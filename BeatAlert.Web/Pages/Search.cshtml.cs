@@ -1,10 +1,12 @@
 using BeatAlert.Logic.DTOs;
 using BeatAlert.Logic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BeatAlert.Web.Pages;
 
+[Authorize]
 public class Search : PageModel
 {
     private readonly IGlobalSearchService _globalSearchService;

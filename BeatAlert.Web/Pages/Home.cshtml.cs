@@ -1,10 +1,11 @@
 using BeatAlert.Logic.DTOs;
 using BeatAlert.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
-namespace BeatAlert.Presentation.Pages
+namespace BeatAlert.Web.Pages
 {
+    [Authorize]
     public class HomeModel : PageModel
     {
         private readonly IHomeService _homeService;

@@ -1,6 +1,8 @@
 using BeatAlert.DAL.Repositories;
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,18 @@ builder.Services.AddRazorPages();
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Missing ConnectionStrings:DefaultConnection");
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";          // where to send users when not logged in
+        options.LogoutPath = "/Logout";        // optional, for later
+        options.ExpireTimeSpan = TimeSpan.FromDays(7); // how long "remember me" lasts
+        options.SlidingExpiration = true;
+    });
+builder.Services.AddAuthorization();
+
+
 
 builder.Services.AddScoped<IAlbumRepository>(_ => new AlbumRepository(connectionString));
 builder.Services.AddScoped<IArtistRepository>(_ => new ArtistRepository(connectionString));
@@ -37,6 +51,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

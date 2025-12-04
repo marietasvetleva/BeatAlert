@@ -1,9 +1,11 @@
 using BeatAlert.Logic.DTOs;
 using BeatAlert.Logic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BeatAlert.Web.Pages;
 
+[Authorize]
 public class Artist : PageModel
 {
     private readonly ArtistService _artistService;
