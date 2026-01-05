@@ -1,6 +1,6 @@
 using BeatAlert.Logic.Models;
 
-namespace BeatAlert.Logic.Interfaces;
+namespace BeatAlert.Logic.Interfaces___Repositories;
 
 public interface IAlbumRepository
 {

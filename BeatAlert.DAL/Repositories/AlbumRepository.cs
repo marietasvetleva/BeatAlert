@@ -1,4 +1,5 @@
 using System.Data.SqlClient;
+using BeatAlert.Logic.Interfaces___Repositories;
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Models;
 using Microsoft.Data.SqlClient;

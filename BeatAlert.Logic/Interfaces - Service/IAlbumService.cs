@@ -1,4 +1,4 @@
-namespace BeatAlert.Logic.Interfaces;
+namespace BeatAlert.Logic.Interfaces___Service;
 
 public interface IAlbumService
 {

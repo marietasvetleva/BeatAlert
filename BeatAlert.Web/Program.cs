@@ -1,4 +1,5 @@
 using BeatAlert.DAL.Repositories;
+using BeatAlert.Logic.Interfaces___Repositories;
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;

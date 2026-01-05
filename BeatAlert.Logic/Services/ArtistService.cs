@@ -1,5 +1,6 @@
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.DTOs;
+using BeatAlert.Logic.Interfaces___Repositories;
 using BeatAlert.Logic.Models;
 
 namespace BeatAlert.Logic.Services;
@@ -8,7 +9,7 @@ public class ArtistService
 {
     private readonly IArtistRepository _artistRepository;
 
-    public ArtistService(IArtistRepository artistRepository, IAlbumRepository albumRepository)
+    public ArtistService(IArtistRepository artistRepository)
     {
         _artistRepository = artistRepository;
         

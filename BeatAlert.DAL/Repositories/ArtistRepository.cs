@@ -90,9 +90,6 @@ public class ArtistRepository : IArtistRepository
 
     Artist? artist = null;
 
-    // ---------------------------------------------------------
-    // 1) RESULT SET 1: ARTIST
-    // ---------------------------------------------------------
     if (reader.Read())
     {
         artist = new Artist
@@ -119,9 +116,6 @@ public class ArtistRepository : IArtistRepository
         return null;
     }
 
-    // ---------------------------------------------------------
-    // 2) RESULT SET 2: ALBUMS
-    // ---------------------------------------------------------
     reader.NextResult();
 
     while (reader.Read())
@@ -137,9 +131,6 @@ public class ArtistRepository : IArtistRepository
         });
     }
 
-    // ---------------------------------------------------------
-    // 3) RESULT SET 3: TOURS
-    // ---------------------------------------------------------
     reader.NextResult();
 
     while (reader.Read())

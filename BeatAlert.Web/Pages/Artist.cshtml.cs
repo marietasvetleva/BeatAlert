@@ -16,7 +16,7 @@ public class Artist : PageModel
     }
     
     public ArtistDetailsDTO ArtistDetails { get; set; }
-    
+    public bool IsFollowed = false;
     
     public void OnGet(int id)
     {

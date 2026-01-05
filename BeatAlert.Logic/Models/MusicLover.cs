@@ -12,15 +12,6 @@ public class MusicLover
     
     public string PasswordHash { get; set; }
     
-    // public MusicLover(string firstName, string lastName, string email, string username, string homeCity, string passwordHash)
-    // {
-    //     FirstName = firstName;
-    //     LastName = lastName;
-    //     Email = email;
-    //     Username = username;
-    //     HomeCity = homeCity;
-    //     PasswordHash = passwordHash;
-    // }
 
     public List<Artist> FollowedArtists { get; init; } = new();
     public List<Song> LikedSongs { get; init; } = new();

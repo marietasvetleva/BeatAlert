@@ -34,7 +34,7 @@ public class LoginService
            return new LoginResultDTO { Success = false, ErrorMessage = "Please fill in all fields." };
        }
 
-       MusicLover user = null;
+       MusicLover? user = null;
        
        if (request.Identifier.Contains("@"))
        {
@@ -45,7 +45,7 @@ public class LoginService
            user = _userRepository.GetByUsername(request.Identifier);
        }
 
-       if (user == null)
+       if (user is null)
        {
            return new LoginResultDTO { Success = false, ErrorMessage = "Invalid email/username or password." };
        }
@@ -61,10 +61,6 @@ public class LoginService
        {
            return new LoginResultDTO { Success = true, ErrorMessage = null, UserId  = user.MusicLoverId};
        }
-       
-       
-       
-       
        
        
    }

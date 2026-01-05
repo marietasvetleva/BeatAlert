@@ -1,4 +1,5 @@
 using BeatAlert.Logic.DTOs;
+using BeatAlert.Logic.Interfaces___Repositories;
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Models;
 

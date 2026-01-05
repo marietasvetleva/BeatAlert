@@ -2,8 +2,9 @@
 @model BeatAlert.Web.Pages.Artist
 
 @{
-    Layout = null;
+    Layout = "_Layout";
 }
+
 
 <header>
     <div>
@@ -18,7 +19,7 @@
     <h1>@Model.ArtistDetails.StageName</h1>
 
     <form method="post">
-        <button type="submit">Follow</button>
+        <button type="submit" class="btn btn-primary">Follow</button>
     </form>
 </section>
 

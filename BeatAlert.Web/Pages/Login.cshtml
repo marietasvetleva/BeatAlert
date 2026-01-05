@@ -1,6 +1,11 @@
 @page
 @model BeatAlert.Web.Pages.Login
 
+@{
+    Layout = "_Layout";
+}
+
+
 <h2>Login</h2>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
@@ -26,5 +31,7 @@
         <label asp-for="RememberMe">Stay logged in</label>
     </div>
 
-    <button type="submit" style="margin-top: 15px;">Login</button>
+    <form method="post">
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
 </form>
