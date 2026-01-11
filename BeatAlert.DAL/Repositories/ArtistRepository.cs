@@ -35,7 +35,7 @@ public class ArtistRepository : IArtistRepository
                             ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
                             StageName = reader.GetString(reader.GetOrdinal("stage_name")),
                             AvatarUrl = reader.IsDBNull(reader.GetOrdinal("image_url"))
-                                ? "/images/default-avatar.jpg"
+                                ? "/images/placeholders/artist.png"
                                 : reader.GetString(reader.GetOrdinal("image_url")),
                             BannerUrl = reader.IsDBNull(reader.GetOrdinal("banner_url"))
                                 ? "/images/default-banner.jpg"
@@ -97,7 +97,7 @@ public class ArtistRepository : IArtistRepository
             ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
             StageName = reader.GetString(reader.GetOrdinal("stage_name")),
             AvatarUrl = reader.IsDBNull(reader.GetOrdinal("image_url"))
-                ? "/images/default-avatar.jpg"
+                ? "/images/placeholders/artist.png"
                 : reader.GetString(reader.GetOrdinal("image_url")),
             BannerUrl = reader.IsDBNull(reader.GetOrdinal("banner_url"))
                 ? "/images/default-banner.jpg"
@@ -126,7 +126,7 @@ public class ArtistRepository : IArtistRepository
             Title = reader.GetString(reader.GetOrdinal("title")),
             ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
             CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
-                ? "/images/default-cover.jpg"
+                ? "/images/placeholders/album.png"
                 : reader.GetString(reader.GetOrdinal("cover_image"))
         });
     }
@@ -141,7 +141,7 @@ public class ArtistRepository : IArtistRepository
             Name = reader.GetString(reader.GetOrdinal("tour_name")),
             Description = reader.GetString(reader.GetOrdinal("description")),
             PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
-                ? "/images/default-tour.jpg"
+                ? "/images/placeholders/tour.png"
                 : reader.GetString(reader.GetOrdinal("promo_image"))
         });
     }
@@ -174,7 +174,7 @@ public class ArtistRepository : IArtistRepository
                             ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
                             StageName = reader.GetString(reader.GetOrdinal("stage_name")),
                             AvatarUrl = reader.IsDBNull(reader.GetOrdinal("image_url"))
-                                ? "/images/default-avatar.jpg"
+                                ? "/images/placeholders/artist.png"
                                 : reader.GetString(reader.GetOrdinal("image_url")),
                             BannerUrl = reader.IsDBNull(reader.GetOrdinal("banner_url"))
                                 ? "/images/default-banner.jpg"

@@ -29,13 +29,21 @@ public class ArtistService
         {
             return null;
         }
-
+        
+        var avatar = string.IsNullOrWhiteSpace(artistEntity.AvatarUrl)
+            ? "/images/placeholders/artist.png"
+            : artistEntity.AvatarUrl;
+        
+        var banner = string.IsNullOrWhiteSpace(artistEntity.BannerUrl)
+            ? "/images/placeholders/artist.png"
+            : artistEntity.BannerUrl;
+        
         return new ArtistDetailsDTO
         {
             ArtistId = artistEntity.ArtistId,
             StageName = artistEntity.StageName,
-            AvatarUrl = artistEntity.AvatarUrl,
-            BannerUrl = artistEntity.BannerUrl,
+            AvatarUrl = avatar,
+            BannerUrl = banner,
             Biography = artistEntity.Biography,
             Albums = artistEntity.Albums.Select(a => MapAlbum(a)).ToList(),
             Tours = artistEntity.Tours.Select(t => MapTour(t)).ToList()
@@ -46,10 +54,15 @@ public class ArtistService
     
     private AlbumDTO MapAlbum(Album album)
     {
+        var cover = string.IsNullOrWhiteSpace(album.CoverImage)
+            ? "/images/placeholders/album.png"
+            : album.CoverImage;
+        
         return new AlbumDTO
         {
             AlbumId = album.AlbumId,
             Title = album.Title,
+            CoverImage = cover,
             ReleaseDate = album.ReleaseDate,
             Duration = album.Duration
                 
@@ -57,11 +70,15 @@ public class ArtistService
     }
 
     private TourDTO MapTour(Tour tour)
-
     {
+        var promo = string.IsNullOrWhiteSpace(tour.PromoPic)
+            ? "/images/placeholders/tour.png"
+            : tour.PromoPic;
+        
         return new TourDTO
         {
             TourId = tour.TourId,
+            PromoPic = promo,
             Name = tour.Name,
             Description = tour.Description,
                 

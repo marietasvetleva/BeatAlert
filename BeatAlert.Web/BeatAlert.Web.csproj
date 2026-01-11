@@ -11,4 +11,12 @@
       <ProjectReference Include="..\BeatAlert.Logic\BeatAlert.Logic.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\images\albums\" />
+      <Folder Include="wwwroot\images\artists\" />
+      <Folder Include="wwwroot\images\banners\" />
+      <Folder Include="wwwroot\images\placeholders\" />
+      <Folder Include="wwwroot\images\tours\" />
+    </ItemGroup>
+
 </Project>

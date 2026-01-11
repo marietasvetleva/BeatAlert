@@ -6,7 +6,7 @@
 }
 
 <section class="artist-hero">
-    <img src="@(Model.ArtistDetails.BannerUrl ?? "/img/placeholder-banner.jpg")"
+    <img src="@(Model.ArtistDetails.BannerUrl)"
          alt="@Model.ArtistDetails.StageName banner"
          class="artist-hero__bg" />
 
@@ -15,7 +15,6 @@
     <div class="artist-hero__content">
         <div>
             <h1 class="artist-hero__name">@Model.ArtistDetails.StageName</h1>
-            <p class="artist-hero__meta">@Model.ArtistDetails.Biography?.Substring(0, Math.Min(80, Model.ArtistDetails.Biography.Length))…</p>
         </div>
 
         <div class="artist-hero__actions">
@@ -24,19 +23,8 @@
                     Follow
                 </button>
             </form>
-
-            <button type="button" class="btn btn--ghost">
-                Share
-            </button>
         </div>
     </div>
-
-    <nav class="tab-nav">
-        <button class="tab-nav__item tab-nav__item--active">Releases</button>
-        <button class="tab-nav__item">Concerts</button>
-        <button class="tab-nav__item">Bio</button>
-        <button class="tab-nav__item">Similar</button>
-    </nav>
 </section>
 
 <!-- Biography -->

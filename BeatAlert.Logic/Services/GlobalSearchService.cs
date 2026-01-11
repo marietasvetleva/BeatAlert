@@ -57,29 +57,29 @@ public class GlobalSearchService : IGlobalSearchService
 
     private static ArtistSearchResultDto MapArtistToDto(Artist artist)
     {
-        // var imageUrl = string.IsNullOrWhiteSpace(artist.AvatarUrl)
-        //     ? "/images/default-avatar.jpg"
-        //     : artist.AvatarUrl;
+        var imageUrl = string.IsNullOrWhiteSpace(artist.AvatarUrl)
+            ? "/images/placeholders/artist.png"
+            : artist.AvatarUrl;
 
         return new ArtistSearchResultDto
         {
             ArtistId = artist.ArtistId,
             StageName = artist.StageName,
-            // ImageUrl = imageUrl
+            AvatarUrl = imageUrl
         };
     }
 
     private static AlbumSearchResultDto MapAlbumToDto(Album album)
     {
-        // var cover = string.IsNullOrWhiteSpace(album.CoverImage)
-        //     ? "/images/default-cover.jpg"
-        //     : album.CoverImage;
+        var cover = string.IsNullOrWhiteSpace(album.CoverImage)
+            ? "/images/placeholders/album.png"
+            : album.CoverImage;
 
         return new AlbumSearchResultDto
         {
             AlbumId = album.AlbumId,
             Title = album.Title,
-            // CoverImageUrl = cover
+            CoverImageUrl = cover
         };
     }
 
@@ -94,15 +94,15 @@ public class GlobalSearchService : IGlobalSearchService
 
     private static TourSearchResultDto MapTourToDto(Tour tour)
     {
-        // var promo = string.IsNullOrWhiteSpace(tour.PromoPic)
-        //     ? "/images/default-tour.jpg"
-        //     : tour.PromoPic;
+        var promo = string.IsNullOrWhiteSpace(tour.PromoPic)
+            ? "/images/placeholders/tour.png"
+            : tour.PromoPic;
 
         return new TourSearchResultDto
         {
             TourId = tour.TourId,
             TourName = tour.Name,
-            // PromoImageUrl = promo
+            PromoImageUrl = promo
         };
     }
 }

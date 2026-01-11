@@ -38,7 +38,7 @@ namespace BeatAlert.DAL.Repositories
                                 Title = reader.GetString(reader.GetOrdinal("title")),
                                 ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
                                 CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
-                                    ? "/images/default-cover.jpg"
+                                    ? "/images/placeholders/album.png"
                                     : reader.GetString(reader.GetOrdinal("cover_image")),
                                 
                                 Artists = new List<Artist>(),
@@ -77,7 +77,7 @@ namespace BeatAlert.DAL.Repositories
                                 Title = reader.GetString(reader.GetOrdinal("title")),
                                 ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
                                 CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
-                                    ? "/images/default-cover.jpg"
+                                    ? "/images/placeholders/album.png"
                                     : reader.GetString(reader.GetOrdinal("cover_image")),
                                 
                                 Artists = new List<Artist>(),
@@ -120,7 +120,7 @@ namespace BeatAlert.DAL.Repositories
                                 Title = reader.GetString(reader.GetOrdinal("title")),
                                 ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
                                 CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
-                                    ? "/images/default-cover.jpg"
+                                    ? "/images/placeholders/album.png"
                                     : reader.GetString(reader.GetOrdinal("cover_image")),
                                 
                                 Artists = new List<Artist>(),

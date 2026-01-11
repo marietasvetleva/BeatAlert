@@ -28,7 +28,7 @@
                 <a asp-page="/Artist"
                    asp-route-id="@artist.ArtistId"
                    class="card card--artist">
-                    <img src="@(artist.ImageUrl ?? "/img/placeholder-artist.jpg")"
+                    <img src="@(artist.AvatarUrl ?? "/images/placeholders/artist.png")"
                          class="card__thumb"
                          alt="@artist.StageName" />
 
