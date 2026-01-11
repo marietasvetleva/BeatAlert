@@ -5,7 +5,6 @@ using BeatAlert.Logic.Interfaces;
 
 namespace BeatAlert.Logic.Services;
 
-
 public class HomeService : IHomeService
 {
     private readonly IAlbumRepository _albumRepo;

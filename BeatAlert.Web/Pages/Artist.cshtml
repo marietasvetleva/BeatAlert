@@ -1,62 +1,97 @@
-@page
+@page "{id:int}"
 @model BeatAlert.Web.Pages.Artist
-
 @{
     Layout = "_Layout";
+    ViewData["Title"] = Model.ArtistDetails?.StageName ?? "Artist";
 }
 
+<section class="artist-hero">
+    <img src="@(Model.ArtistDetails.BannerUrl ?? "/img/placeholder-banner.jpg")"
+         alt="@Model.ArtistDetails.StageName banner"
+         class="artist-hero__bg" />
 
-<header>
-    <div>
-        <input type="text" placeholder="Search" />
-        <span>🔔</span>
-        <span>👤</span>
+    <div class="artist-hero__overlay"></div>
+
+    <div class="artist-hero__content">
+        <div>
+            <h1 class="artist-hero__name">@Model.ArtistDetails.StageName</h1>
+            <p class="artist-hero__meta">@Model.ArtistDetails.Biography?.Substring(0, Math.Min(80, Model.ArtistDetails.Biography.Length))…</p>
+        </div>
+
+        <div class="artist-hero__actions">
+            <form method="post">
+                <button type="submit" class="btn btn--primary">
+                    Follow
+                </button>
+            </form>
+
+            <button type="button" class="btn btn--ghost">
+                Share
+            </button>
+        </div>
     </div>
-</header>
 
-
-<section>
-    <h1>@Model.ArtistDetails.StageName</h1>
-
-    <form method="post">
-        <button type="submit" class="btn btn-primary">Follow</button>
-    </form>
+    <nav class="tab-nav">
+        <button class="tab-nav__item tab-nav__item--active">Releases</button>
+        <button class="tab-nav__item">Concerts</button>
+        <button class="tab-nav__item">Bio</button>
+        <button class="tab-nav__item">Similar</button>
+    </nav>
 </section>
 
+<!-- Biography -->
+<section class="page-section">
+    <div class="section-header">
+        <h2 class="section-title">Biography</h2>
+    </div>
 
-<main>
-    
-    <section>
-        <div>
-            <h2>Biography</h2>
-            <p>@Model.ArtistDetails.Biography</p>
-        </div>
-    </section>
-    
-    <section>
-        <div>
-            <h2>Albums</h2>
-            <ul>
-                @foreach (var album in Model.ArtistDetails.Albums)
-                {
-                    <li>
-                        <strong>@album.Title</strong>
-                    </li>
-                }
-            </ul>
-        </div>
+    <p>@Model.ArtistDetails.Biography</p>
+</section>
 
-        <div>
-            <h2>Tours</h2>
-            <ul>
-                @foreach (var tour in Model.ArtistDetails.Tours)
-                {
-                    <li>
-                    <strong>@tour.Name</strong>
-                    </li>
-                }
-            </ul>
-        </div>
-    </section>
+<!-- Albums -->
+<section class="page-section">
+    <div class="section-header">
+        <h2 class="section-title">Albums</h2>
+    </div>
 
-</main>
+    <div class="grid grid--3">
+        @foreach (var album in Model.ArtistDetails.Albums)
+        {
+            <article class="card card--release">
+                <img src="@(album.CoverImage ?? "/img/placeholder-album.jpg")"
+                     alt="@album.Title cover"
+                     class="card__thumb" />
+
+                <div class="card__body">
+                    <h3 class="card__title">@album.Title</h3>
+                    <p class="card__meta">
+                        @album.ReleaseDate.ToString("yyyy") · @album.Duration
+                    </p>
+                </div>
+            </article>
+        }
+    </div>
+</section>
+
+<!-- Tours -->
+<section class="page-section">
+    <div class="section-header">
+        <h2 class="section-title">Tours</h2>
+    </div>
+
+    <div class="stack">
+        @foreach (var tour in Model.ArtistDetails.Tours)
+        {
+            <article class="card card--list">
+                <div>
+                    <h3 class="card__title">@tour.Name</h3>
+                    <p class="card__meta">@tour.Description</p>
+                </div>
+
+                <button class="btn btn--ghost" type="button">
+                    View dates
+                </button>
+            </article>
+        }
+    </div>
+</section>

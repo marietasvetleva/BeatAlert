@@ -59,7 +59,7 @@ public class LoginService
 
        else
        {
-           return new LoginResultDTO { Success = true, ErrorMessage = null, UserId  = user.MusicLoverId};
+           return new LoginResultDTO { Success = true, ErrorMessage = null, UserId = user.MusicLoverId, FirstName = user.FirstName };
        }
        
        

@@ -11,6 +11,7 @@ namespace BeatAlert.Web.Pages
         private readonly IHomeService _homeService;
 
         public List<AlbumDTO> Albums { get; set; }
+        public string FirstName { get; set; }
 
         public HomeModel(IHomeService homeService)
         {
@@ -20,6 +21,9 @@ namespace BeatAlert.Web.Pages
         public void OnGet()
         {
             Albums = _homeService.GetAlbums();
+            
+            FirstName = User.FindFirst("FirstName")?.Value 
+                        ?? User.Identity?.Name;
         }
     }
 }

@@ -3,55 +3,105 @@
 
 @{
     Layout = "_Layout";
-}
-
-@{
     ViewData["Title"] = "Create Account";
 }
 
-<h2>Create Your Account</h2>
+<section class="page-section" style="max-width: 520px; margin: 0 auto;">
+    <h1 class="page-title">Create your account</h1>
+    <p class="page-subtitle">
+        Sign up to follow your favorite artists and get notified about new releases and concerts.
+    </p>
 
-<form method="post" class="registration-form">
+    <form method="post" class="auth-form">
 
-    
-    <label asp-for="Input.FirstName"></label>
-    <input asp-for="Input.FirstName" class="form-control" />
-    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+        <!-- First name -->
+        <div class="form-group">
+            <label for="FirstName">First Name</label>
 
-   
-    <label asp-for="Input.LastName"></label>
-    <input asp-for="Input.LastName" class="form-control" />
-    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            <input id="FirstName"
+                   name="Input.FirstName"
+                   class="form-control auth-input"
+                   asp-for="Input.FirstName" />
+
+            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+        </div>
+
+        <!-- Last name -->
+        <div class="form-group">
+            <label for="LastName">Last Name</label>
+
+            <input id="LastName"
+                   name="Input.LastName"
+                   class="form-control auth-input"
+                   asp-for="Input.LastName" />
+
+            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+        </div>
 
 
-    <label asp-for="Input.Email"></label>
-    <input asp-for="Input.Email" class="form-control" />
-    <span asp-validation-for="Input.Email" class="text-danger"></span>
+        <!-- Email -->
+        <div class="form-group">
+            <label for="Email">Email</label>
 
-    
-    <label asp-for="Input.Username"></label>
-    <input asp-for="Input.Username" class="form-control" />
-    <span asp-validation-for="Input.Username" class="text-danger"></span>
+            <input id="Email"
+                   name="Input.Email"
+                   class="form-control auth-input"
+                   asp-for="Input.Email" />
 
-    
-    <label asp-for="Input.Password"></label>
-    <input asp-for="Input.Password" type="password" class="form-control" />
-    <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
 
-    
-    <label asp-for="Input.HomeCity"></label>
-    <input asp-for="Input.HomeCity" class="form-control" />
-    <span asp-validation-for="Input.HomeCity" class="text-danger"></span>
-    
-    <button type="submit" class="btn btn-primary">
-        Create Account
-    </button>
-    
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <div class="text-danger">@Model.ErrorMessage</div>
-    }
-</form>
+
+        <!-- Username -->
+        <div class="form-group">
+            <label for="Username">Username</label>
+
+            <input id="Username"
+                   name="Input.Username"
+                   class="form-control auth-input"
+                   asp-for="Input.Username" />
+
+            <span asp-validation-for="Input.Username" class="text-danger"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="Password">Password</label>
+
+            <input id="Password"
+                   name="Input.Password"
+                   class="form-control auth-input"
+                   asp-for="Input.Password" />
+
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+
+        <!-- Home city -->
+        <div class="form-group">
+            <label for="HomeCity">Home City</label>
+
+            <input id="HomeCity"
+                   name="Input.HomeCity"
+                   class="form-control auth-input"
+                   asp-for="Input.HomeCity" />
+
+            <span asp-validation-for="Input.HomeCity" class="text-danger"></span>
+        </div>
+
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="text-danger" style="margin-top: 4px;">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        <button type="submit" class="btn btn--primary" style="margin-top: 14px;">
+            Create account
+        </button>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

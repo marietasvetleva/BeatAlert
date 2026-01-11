@@ -51,9 +51,10 @@ public class Login : PageModel
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, result.UserId.ToString()),
-            new Claim(ClaimTypes.Name, Input.Identifier ?? string.Empty)
+            new Claim(ClaimTypes.Name, Input.Identifier ?? string.Empty),
+            new Claim("FirstName", result.FirstName ?? string.Empty)
         };
-        
+
         if (!string.IsNullOrWhiteSpace(Input.Identifier) && Input.Identifier.Contains("@"))
         {
             claims.Add(new Claim(ClaimTypes.Email, Input.Identifier));
@@ -64,17 +65,17 @@ public class Login : PageModel
             CookieAuthenticationDefaults.AuthenticationScheme);
 
         var principal = new ClaimsPrincipal(identity);
-        
+
         var authProperties = new AuthenticationProperties
         {
             IsPersistent = RememberMe
         };
-        
+
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             principal,
             authProperties);
-        
+
         return RedirectToPage("/Home");
     }
 }

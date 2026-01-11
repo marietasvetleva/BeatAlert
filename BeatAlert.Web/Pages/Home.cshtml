@@ -2,42 +2,34 @@
 @model BeatAlert.Web.Pages.HomeModel
 @{
     ViewData["Title"] = "Home";
+    Layout = "_Layout";
 }
 
-@{
-  Layout = "_Layout";
-}
+<!-- Welcome / intro -->
+<section class="page-section">
+    <h1 class="page-title">Welcome back, @Model.FirstName!</h1>
+    <p class="page-subtitle">
+        Here’s what’s new from the artists you follow.
+    </p>
+</section>
 
-
-<header class="topbar">
-
-  <div class="icons">
-    <a href="/Notifications" aria-label="Notifications" title="Notifications">🔔</a>
-    <a href="/Profile" aria-label="Profile" title="Profile">👤</a>
-  </div>
-</header>
-
-<main class="container">
-  <div class="welcome">
-    <h2>Welcome back!</h2>
-  </div>
-
-  @* New Releases *@
-  
-  <section class="section">
-    <h3>New Album Releases</h3>
-    <div class="grid">
-      @if (Model.Albums?.Any() == true)
-      {
-        foreach (var r in Model.Albums)
-        {
-          <partial name="_ReleaseCard" model="@r" />
-        }
-      }
-      else
-      {
-        <p>No albums found.</p>
-      }
+<!-- New releases section -->
+<section class="page-section">
+    <div class="section-header">
+        <h2 class="section-title">New Album Releases</h2>
     </div>
-  </section>
-</main>
+
+    <div class="grid grid--3">
+        @if (Model.Albums?.Any() == true)
+        {
+            foreach (var r in Model.Albums)
+            {
+                <partial name="_ReleaseCard" model="@r" />
+            }
+        }
+        else
+        {
+            <p class="page-subtitle">No albums found.</p>
+        }
+    </div>
+</section>

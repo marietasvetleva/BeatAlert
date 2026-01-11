@@ -3,67 +3,105 @@
 
 @{
     Layout = "_Layout";
+    ViewData["Title"] = "Search";
 }
 
-<h2>Results for "@Model.Result.Query"</h2>
+<section class="page-section">
+    <h1 class="page-title">
+        Results for "@Model.Result.Query"
+    </h1>
+    <p class="page-subtitle">
+        Showing matches across artists, albums, songs and tours.
+    </p>
+</section>
 
-@if (Model.Result.Artists.Any())
+@if (Model.Result.Artists != null && Model.Result.Artists.Any())
 {
-    <h3>Artists</h3>
-    <div class="row">
-        @foreach (var artist in Model.Result.Artists)
-        {
-            <div class="col-3 text-center">
+    <section class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Artists</h2>
+        </div>
+
+        <div class="grid grid--3">
+            @foreach (var artist in Model.Result.Artists)
+            {
                 <a asp-page="/Artist"
                    asp-route-id="@artist.ArtistId"
-                   class="text-decoration-none text-reset">
-                    <img src="@artist.ImageUrl" class="img-fluid rounded" />
-                    <p class="mt-2">@artist.StageName</p>
+                   class="card card--artist">
+                    <img src="@(artist.ImageUrl ?? "/img/placeholder-artist.jpg")"
+                         class="card__thumb"
+                         alt="@artist.StageName" />
+
+                    <div class="card__body">
+                        <h3 class="card__title">@artist.StageName</h3>
+                        <p class="card__meta">Artist</p>
+                    </div>
                 </a>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    </section>
 }
 
-@if (Model.Result.Albums.Any())
+@if (Model.Result.Albums != null && Model.Result.Albums.Any())
 {
-    <h3>Artists</h3>
-    <div class="row">
-        @foreach (var artist in Model.Result.Artists)
-        {
-            <div class="col-3 text-center">
-                <a asp-page="/Artist"
-                   asp-route-id="@artist.ArtistId"
-                   class="text-decoration-none text-reset">
-                    <img src="@artist.ImageUrl" class="img-fluid rounded" />
-                    <p class="mt-2">@artist.StageName</p>
-                </a>
-            </div>
-        }
-    </div>
+    <section class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Albums</h2>
+        </div>
+
+        <div class="grid grid--3">
+            @foreach (var album in Model.Result.Albums)
+            {
+                <article class="card card--release">
+                    <img src="@(album.CoverImageUrl ?? "/img/placeholder-album.jpg")"
+                         class="card__thumb"
+                         alt="@album.Title" />
+                </article>
+            }
+        </div>
+    </section>
 }
 
-@if (Model.Result.Songs.Any())
+@if (Model.Result.Songs != null && Model.Result.Songs.Any())
 {
-    <h3>Songs</h3>
-    <ul>
-        @foreach (var song in Model.Result.Songs)
-        {
-            <li>@song.Title</li>
-        }
-    </ul>
+    <section class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Songs</h2>
+        </div>
+
+        <ul class="search-list">
+            @foreach (var song in Model.Result.Songs)
+            {
+                <li class="search-list__item">
+                    <span class="search-list__title">@song.Title</span>
+                    <span class="search-list__meta">Song</span>
+                </li>
+            }
+        </ul>
+    </section>
 }
 
-@if (Model.Result.Tours.Any())
+@if (Model.Result.Tours != null && Model.Result.Tours.Any())
 {
-    <h3>Tours</h3>
-    <div class="row">
-        @foreach (var tour in Model.Result.Tours)
-        {
-            <div class="col-3 text-center">
-                <img src="@tour.PromoImageUrl" class="img-fluid rounded" />
-                <p>@tour.TourName</p>
-            </div>
-        }
-    </div>
+    <section class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Tours</h2>
+        </div>
+
+        <div class="grid grid--3">
+            @foreach (var tour in Model.Result.Tours)
+            {
+                <article class="card card--tour">
+                    <img src="@(tour.PromoImageUrl ?? "/img/placeholder-tour.jpg")"
+                         class="card__thumb"
+                         alt="@tour.TourName" />
+
+                    <div class="card__body">
+                        <h3 class="card__title">@tour.TourName</h3>
+                        <p class="card__meta">Tour</p>
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
 }
