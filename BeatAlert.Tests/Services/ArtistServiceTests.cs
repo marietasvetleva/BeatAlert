@@ -26,7 +26,7 @@ public class ArtistServiceTests
                 {
                     AlbumId = 10,
                     Title = "Born to Die",
-                    ReleaseDate = new DateTime(2012, 1, 1),
+                    ReleaseDate = new DateOnly(2012, 1, 1),
                     Duration = 3600
                 }
             },

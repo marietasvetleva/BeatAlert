@@ -36,7 +36,9 @@ namespace BeatAlert.DAL.Repositories
                             {
                                 AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
                                 Title = reader.GetString(reader.GetOrdinal("title")),
-                                ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
+                                ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                                    ? null
+                                    : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
                                 CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
                                     ? "/images/placeholders/album.png"
                                     : reader.GetString(reader.GetOrdinal("cover_image")),
@@ -56,40 +58,82 @@ namespace BeatAlert.DAL.Repositories
 
         // Get album by ID
         public Album? GetAlbumById(int id)
+{
+    using (var connection = new SqlConnection(_connectionString))
+    {
+        var query = @"
+            -- 1) Album
+            SELECT album_id, title, release_date, cover_image
+            FROM Album
+            WHERE album_id = @Id;
+
+            -- 2) Songs
+            SELECT song_id, title, duration, release_date, lyrics, album_id
+            FROM Song
+            WHERE album_id = @Id
+            ORDER BY song_id;
+        ";
+
+        using (var command = new SqlCommand(query, connection))
         {
-            using (var connection = new SqlConnection(_connectionString))
+            command.Parameters.AddWithValue("@Id", id);
+
+            connection.Open();
+
+            using (var reader = command.ExecuteReader())
             {
-                var query = "SELECT album_id, title, release_date, cover_image FROM Album WHERE album_id = @Id";
+                Album? album = null;
 
-                using (var command = new SqlCommand(query, connection))
+                // 1) Read album
+                if (reader.Read())
                 {
-                    command.Parameters.AddWithValue("@Id", id);
-
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
+                    album = new Album
                     {
-                        if (reader.Read())
-                        {
-                            return new Album
-                            {
-                                AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
-                                Title = reader.GetString(reader.GetOrdinal("title")),
-                                ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
-                                CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
-                                    ? "/images/placeholders/album.png"
-                                    : reader.GetString(reader.GetOrdinal("cover_image")),
-                                
-                                Artists = new List<Artist>(),
-                                Songs = new List<Song>()
-                            };
-                        }
-                    }
+                        AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
+                        Title = reader.GetString(reader.GetOrdinal("title")),
+                        ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                            ? null
+                            : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
+                        CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
+                            ? "/images/placeholders/album.png"
+                            : reader.GetString(reader.GetOrdinal("cover_image")),
+                        Artists = new List<Artist>(),
+                        Songs = new List<Song>()
+                    };
                 }
-            }
+                else
+                {
+                    return null; // album not found
+                }
 
-            return null;
+                // 2) Move to songs result set
+                reader.NextResult();
+
+                // Read ALL songs
+                while (reader.Read())
+                {
+                    album.Songs.Add(new Song
+                    {
+                        SongId = reader.GetInt32(reader.GetOrdinal("song_id")),
+                        Title = reader.GetString(reader.GetOrdinal("title")),
+                        DurationSeconds = reader.GetInt32(reader.GetOrdinal("duration")),
+                        ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                            ? null
+                            : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
+                        Lyrics = reader.IsDBNull(reader.GetOrdinal("lyrics"))
+                            ? null
+                            : reader.GetString(reader.GetOrdinal("lyrics")),
+                        AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
+                        Artists = new List<Artist>()
+                    });
+                }
+
+                return album;
+            }
         }
+    }
+}
+
 
         // Search albums by title 
         public List<Album> SearchAlbum(string queryText)
@@ -118,7 +162,9 @@ namespace BeatAlert.DAL.Repositories
                             {
                                 AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
                                 Title = reader.GetString(reader.GetOrdinal("title")),
-                                ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
+                                ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                                    ? null
+                                    : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
                                 CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
                                     ? "/images/placeholders/album.png"
                                     : reader.GetString(reader.GetOrdinal("cover_image")),

@@ -17,7 +17,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Login";          // where to send users when not logged in
-        options.LogoutPath = "/Logout";        // optional, for later
+        options.LogoutPath = "/Logout";       
         options.ExpireTimeSpan = TimeSpan.FromDays(7); // how long "remember me" lasts
         options.SlidingExpiration = true;
     });
@@ -39,6 +39,7 @@ builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<ArtistService>();
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<TourService>();
+builder.Services.AddScoped<AlbumService>();
 
 var app = builder.Build();
 

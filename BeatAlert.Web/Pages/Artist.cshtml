@@ -45,21 +45,23 @@
     <div class="grid grid--3">
         @foreach (var album in Model.ArtistDetails.Albums)
         {
-            <article class="card card--release">
+            <a asp-page="/Album"
+               asp-route-id="@album.AlbumId"
+               class="card card--release card--link">
+
                 <img src="@(album.CoverImage ?? "/img/placeholder-album.jpg")"
                      alt="@album.Title cover"
                      class="card__thumb" />
 
                 <div class="card__body">
                     <h3 class="card__title">@album.Title</h3>
-                    <p class="card__meta">
-                        @album.ReleaseDate.ToString("yyyy") · @album.Duration
-                    </p>
                 </div>
-            </article>
+
+            </a>
         }
     </div>
 </section>
+
 
 <!-- Tours -->
 <section class="page-section">

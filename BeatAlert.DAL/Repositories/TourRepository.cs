@@ -106,8 +106,7 @@ public class TourRepository : ITourRepository
                 {
                     return null;
                 }
-
-                // ---------- Second result set (Shows) ----------
+                
                 reader.NextResult();
 
                 while (reader.Read())

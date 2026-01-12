@@ -124,7 +124,9 @@ public class ArtistRepository : IArtistRepository
         {
             AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
             Title = reader.GetString(reader.GetOrdinal("title")),
-            ReleaseDate = reader.GetDateTime(reader.GetOrdinal("release_date")),
+            ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                ? null
+                : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
             CoverImage = reader.IsDBNull(reader.GetOrdinal("cover_image"))
                 ? "/images/placeholders/album.png"
                 : reader.GetString(reader.GetOrdinal("cover_image"))
