@@ -60,44 +60,77 @@ public class TourRepository : ITourRepository
         return tours;
     }
 
-    public Tour GetTourById(int id)
+    public Tour? GetTourById(int id)
+{
+    using (var connection = new SqlConnection(_connectionString))
     {
-        using (var connection = new SqlConnection(_connectionString))
+        var query = @"
+        -- 1) Tour
+        SELECT tour_id, tour_name, promo_image, description, artist_id
+        FROM Tour
+        WHERE tour_id = @id;
+
+        -- 2) Shows
+        SELECT show_id, start_datetime, venue_name, city, country
+        FROM Show
+        WHERE tour_id = @id;
+        ";
+
+        using (var command = new SqlCommand(query, connection))
         {
-            var query = "SELECT tour_id, tour_name, promo_image, description, artist_id FROM Tour WHERE tour_id = @id";
+            command.Parameters.AddWithValue("@id", id);
+            connection.Open();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var reader = command.ExecuteReader())
             {
-                command.Parameters.AddWithValue("@id", id);
+                Tour? tour = null;
 
-                connection.Open();
-
-                using (var reader = command.ExecuteReader())
+                if (reader.Read())
                 {
-                    while (reader.Read())
+                    tour = new Tour
                     {
-                        return new Tour
-                        {
-                            TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
-                            Name = reader.GetString(reader.GetOrdinal("tour_name")),
-                            PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
-                                ? "/images/default-tour.jpg"
-                                : reader.GetString(reader.GetOrdinal("promo_image")),
-                            Description = reader.IsDBNull(reader.GetOrdinal("description"))
-                                ? "No description available."
-                                : reader.GetString(reader.GetOrdinal("description")),
-                            ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
-                            Shows = new List<Show>(),
-                            Artist = null
-                        };
-                    }
-
+                        TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
+                        Name = reader.GetString(reader.GetOrdinal("tour_name")),
+                        PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
+                            ? "/images/default-tour.jpg"
+                            : reader.GetString(reader.GetOrdinal("promo_image")),
+                        Description = reader.IsDBNull(reader.GetOrdinal("description"))
+                            ? "No description available."
+                            : reader.GetString(reader.GetOrdinal("description")),
+                        ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
+                        Shows = new List<Show>(),
+                        Artist = null
+                    };
+                }
+                else
+                {
                     return null;
                 }
+
+                // ---------- Second result set (Shows) ----------
+                reader.NextResult();
+
+                while (reader.Read())
+                {
+                    tour.Shows.Add(new Show
+                    {
+                        ShowId = reader.GetInt32(reader.GetOrdinal("show_id")),
+                        StartDateTime = reader.GetDateTime(reader.GetOrdinal("start_datetime")),
+                        VenueName = reader.GetString(reader.GetOrdinal("venue_name")),
+                        City = reader.GetString(reader.GetOrdinal("city")),
+                        Contry = reader.GetString(reader.GetOrdinal("country")),
+                        Tour = null,
+                        Venue = null
+                    });
+                }
+
+                return tour;
             }
         }
     }
+}
 
+    
     public List<Tour> SearchToursByName(string queryText)
     {
         var tours = new List<Tour>();
@@ -105,9 +138,9 @@ public class TourRepository : ITourRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             var query = @"
-            SELECT tour_id, tour_name, promo_image, description, artist_id 
-            FROM Tour
-            WHERE LOWER(tour_name) LIKE '%' + LOWER(@query) + '%'";
+                         SELECT tour_id, tour_name, promo_image, description, artist_id 
+                         FROM Tour
+                         WHERE LOWER(tour_name) LIKE '%' + LOWER(@query) + '%'";
 
             using (var command = new SqlCommand(query, connection))
             {
@@ -141,5 +174,6 @@ public class TourRepository : ITourRepository
                 }
             }
         }
+
     }
 }

@@ -63,7 +63,7 @@ public class ArtistRepository : IArtistRepository
 {
     using var connection = new SqlConnection(_connectionString);
 
-    var sql = @"
+    var query = @"
         -- 1) Artist
         SELECT artist_id, stage_name, image_url, banner_url, biography
         FROM Artist
@@ -81,7 +81,7 @@ public class ArtistRepository : IArtistRepository
         WHERE artist_id = @Id;
     ";
 
-    using var command = new SqlCommand(sql, connection);
+    using var command = new SqlCommand(query, connection);
     command.Parameters.AddWithValue("@Id", id);
 
     connection.Open();

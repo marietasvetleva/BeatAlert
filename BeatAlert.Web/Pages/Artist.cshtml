@@ -75,10 +75,13 @@
                     <h3 class="card__title">@tour.Name</h3>
                     <p class="card__meta">@tour.Description</p>
                 </div>
-
-                <button class="btn btn--ghost" type="button">
+                
+                <a asp-page="/Tour"
+                   asp-route-id="@tour.TourId"
+                   class="btn btn--primary btn-cta">
                     View dates
-                </button>
+                </a>
+
             </article>
         }
     </div>

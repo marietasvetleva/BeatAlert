@@ -9,6 +9,10 @@ public class Show
     public int TourId { get; init; }
     public int VenueId { get; init; }
     
+    public string VenueName { get; init; }
+    public string City { get; init; }
+    public string Contry { get; init; }
+    
     public Venue? Venue { get; init; }
     public Tour? Tour { get; init; }
 

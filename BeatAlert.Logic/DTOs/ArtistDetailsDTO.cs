@@ -9,6 +9,6 @@ public class ArtistDetailsDTO
     public string Biography { get; set; }
     
     public List<AlbumDTO> Albums { get; set; }
-    public List<TourDTO> Tours { get; set; }
+    public List<TourDetailsDto> Tours { get; set; }
     
 }

@@ -38,6 +38,7 @@ builder.Services.AddScoped<IGlobalSearchService, GlobalSearchService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<ArtistService>();
 builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<TourService>();
 
 var app = builder.Build();
 

@@ -69,13 +69,13 @@ public class ArtistService
         };
     }
 
-    private TourDTO MapTour(Tour tour)
+    private TourDetailsDto MapTour(Tour tour)
     {
         var promo = string.IsNullOrWhiteSpace(tour.PromoPic)
             ? "/images/placeholders/tour.png"
             : tour.PromoPic;
         
-        return new TourDTO
+        return new TourDetailsDto()
         {
             TourId = tour.TourId,
             PromoPic = promo,
