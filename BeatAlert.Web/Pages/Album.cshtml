@@ -17,11 +17,16 @@
         => dt.HasValue ? dt.Value.ToString("dd MMM yyyy", CultureInfo.InvariantCulture) : "—";
 
     var album = Model.AlbumDetails;
-    var songs = album?.Songs ?? new();
-    var totalSeconds = songs.Sum(s => (int)s.Duration); 
 }
 
-@if (album == null)
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="page-section">
+        <h1 class="page-title">Something went wrong</h1>
+        <p class="page-subtitle">@Model.ErrorMessage</p>
+    </section>
+}
+else if (album == null)
 {
     <section class="page-section">
         <h1 class="page-title">Album not found</h1>
@@ -30,7 +35,10 @@
 }
 else
 {
-    <!-- Spotify-like hero -->
+    var songs = album.Songs ?? new();
+    var totalSeconds = songs.Sum(s => (int)s.Duration);
+
+    
     <section class="album-hero2">
         <div class="album-hero2__bg"
              style="background-image:url('@(album.CoverImage ?? "/images/placeholder/album.png")')"></div>

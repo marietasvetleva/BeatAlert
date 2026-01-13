@@ -11,7 +11,7 @@ public class Show
     
     public string VenueName { get; init; }
     public string City { get; init; }
-    public string Contry { get; init; }
+    public string Country { get; init; }
     
     public Venue? Venue { get; init; }
     public Tour? Tour { get; init; }

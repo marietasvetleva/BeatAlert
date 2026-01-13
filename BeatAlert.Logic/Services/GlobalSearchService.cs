@@ -9,7 +9,7 @@ public class GlobalSearchService : IGlobalSearchService
 {
     private readonly IArtistRepository _artistRepository;
     private readonly IAlbumRepository _albumRepository;
-    // private readonly IShowRepository _showRepository;
+    private readonly IShowRepository _showRepository;
     private readonly ISongRepository _songRepository;
     private readonly ITourRepository _tourRepository;
 
@@ -17,12 +17,14 @@ public class GlobalSearchService : IGlobalSearchService
     (
         IArtistRepository artistRepository,
         IAlbumRepository albumRepository,
+        IShowRepository showRepository,
         ISongRepository songRepository,
         ITourRepository tourRepository
     )
     {
         _artistRepository = artistRepository;
         _albumRepository = albumRepository;
+        _showRepository = showRepository;
         _songRepository = songRepository;
         _tourRepository = tourRepository;
     }
@@ -42,17 +44,25 @@ public class GlobalSearchService : IGlobalSearchService
             return result;
         }
 
-        var artists = _artistRepository.SearchArtist(normalized);
-        var albums  = _albumRepository.SearchAlbum(normalized);
-        var songs   = _songRepository.SearchSong(normalized);
-        var tours   = _tourRepository.SearchToursByName(normalized);
+        try
+        {
+            var artists = _artistRepository.SearchArtist(normalized);
+            var albums = _albumRepository.SearchAlbum(normalized);
+            var songs = _songRepository.SearchSong(normalized);
+            var tours = _tourRepository.SearchToursByName(normalized);
 
-        result.Artists = artists.Select(MapArtistToDto).ToList();
-        result.Albums  = albums.Select(MapAlbumToDto).ToList();
-        result.Songs   = songs.Select(MapSongToDto).ToList();
-        result.Tours   = tours.Select(MapTourToDto).ToList();
+            result.Artists = artists.Select(MapArtistToDto).ToList();
+            result.Albums = albums.Select(MapAlbumToDto).ToList();
+            result.Songs = songs.Select(MapSongToDto).ToList();
+            result.Tours = tours.Select(MapTourToDto).ToList();
 
-        return result;
+            return result;
+        }
+
+        catch (Exception exception)
+        {
+            throw new ServiceException("Search is currently unavailable. Please try again later.", exception);
+        }
     }
 
     private static ArtistSearchResultDto MapArtistToDto(Artist artist)

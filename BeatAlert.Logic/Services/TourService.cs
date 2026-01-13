@@ -20,26 +20,34 @@ public class TourService
             return null;
         }
 
-        var tourEntity = _tourRepository.GetTourById(id);
-
-        if (tourEntity == null)
+        try
         {
-            return null;
+            var tourEntity = _tourRepository.GetTourById(id);
+
+            if (tourEntity == null)
+            {
+                return null;
+            }
+
+            var promopic = string.IsNullOrEmpty(tourEntity.PromoPic)
+                ? "/images/placeholders/tour.png"
+                : tourEntity.PromoPic;
+
+            return new TourDetailsDto
+            {
+                TourId = tourEntity.TourId,
+                Name = tourEntity.Name,
+                Description = tourEntity.Description,
+                PromoPic = promopic,
+                Shows = tourEntity.Shows.Select(s => MapShow(s)).ToList()
+
+            };
         }
 
-        var promopic = string.IsNullOrEmpty(tourEntity.PromoPic)
-            ? "/images/placeholders/tour"
-            : tourEntity.PromoPic;
-
-        return new TourDetailsDto
+        catch (Exception exception)
         {
-            TourId = tourEntity.TourId,
-            Name = tourEntity.Name,
-            Description = tourEntity.Description,
-            PromoPic = promopic,
-            Shows = tourEntity.Shows.Select(s => MapShow(s)).ToList()
-
-        };
+            throw new ServiceException("Could not load tour details. Please try again later.", exception);
+        }
 
     }
 
@@ -51,7 +59,7 @@ public class TourService
             TicketUrl = show.TicketUrl,
             VenueName = show.VenueName,
             City = show.City,
-            Country = show.Contry
+            Country = show.Country
         };
     }
 }

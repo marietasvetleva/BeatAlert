@@ -117,7 +117,7 @@ public class TourRepository : ITourRepository
                         StartDateTime = reader.GetDateTime(reader.GetOrdinal("start_datetime")),
                         VenueName = reader.GetString(reader.GetOrdinal("venue_name")),
                         City = reader.GetString(reader.GetOrdinal("city")),
-                        Contry = reader.GetString(reader.GetOrdinal("country")),
+                        Country = reader.GetString(reader.GetOrdinal("country")),
                         Tour = null,
                         Venue = null
                     });

@@ -8,13 +8,17 @@
 <section class="page-section" style="max-width: 480px; margin: 0 auto;">
     <h1 class="page-title">Login</h1>
 
-    @* Error message *@
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    
+    @if (!ViewData.ModelState.IsValid)
     {
         <div style="color: #f87171; margin-bottom: 12px;">
-            @Model.ErrorMessage
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div>@error.ErrorMessage</div>
+            }
         </div>
     }
+
 
     <form method="post" class="auth-form">
 

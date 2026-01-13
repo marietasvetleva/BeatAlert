@@ -16,11 +16,19 @@ public class Album : PageModel
     }
     
     public AlbumDTO AlbumDetails { get; set; }
-    
+    public string ErrorMessage { get; set; }
     
     
     public void OnGet(int id)
     {
-        AlbumDetails = _albumService.GetById(id);
+        try
+        {
+            AlbumDetails = _albumService.GetById(id);
+        }
+
+        catch (ServiceException exception)
+        {
+            ErrorMessage = exception.Message;
+        }
     }
 }

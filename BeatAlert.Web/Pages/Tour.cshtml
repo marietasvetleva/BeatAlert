@@ -1,13 +1,21 @@
 @page "{id:int}"
 @using System.Linq
-@using BeatAlert.Logic.DTOs
 @model BeatAlert.Web.Pages.Tour
 @{
     Layout = "_Layout";
     ViewData["Title"] = Model.TourDetails?.Name ?? "Tour";
+
+    var tour = Model.TourDetails;
 }
 
-@if (Model.TourDetails== null)
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="page-section">
+        <h1 class="page-title">Something went wrong</h1>
+        <p class="page-subtitle">@Model.ErrorMessage</p>
+    </section>
+}
+else if (tour == null)
 {
     <section class="page-section">
         <h1 class="page-title">Tour not found</h1>
@@ -17,8 +25,8 @@
 else
 {
     <section class="tour-hero">
-        <img src="@(Model.TourDetails.PromoPic ?? "/images/placeholder/tour.png")"
-             alt="@Model.TourDetails.Name promo"
+        <img src="@(tour.PromoPic ?? "/images/placeholder/tour.png")"
+             alt="@tour.Name promo"
              class="tour-hero__bg"
              onerror="this.src='/images/placeholder/tour.png'" />
 
@@ -26,11 +34,11 @@ else
 
         <div class="tour-hero__content">
             <div>
-                <h1 class="tour-hero__name">@Model.TourDetails.Name</h1>
+                <h1 class="tour-hero__name">@tour.Name</h1>
                 <p class="tour-hero__meta">
-                    @(string.IsNullOrWhiteSpace(Model.TourDetails.Description)
+                    @(string.IsNullOrWhiteSpace(tour.Description)
                         ? "No description available."
-                        : Model.TourDetails.Description)
+                        : tour.Description)
                 </p>
             </div>
         </div>
@@ -42,14 +50,14 @@ else
             <h2 class="section-title">Dates</h2>
         </div>
 
-        @if (Model.TourDetails.Shows == null)
+        @if (tour.Shows == null || !tour.Shows.Any())
         {
             <p class="page-subtitle">No shows have been added for this tour yet.</p>
         }
         else
         {
             <div class="stack">
-                @foreach (var show in Model.TourDetails.Shows.OrderBy(s => s.StartDateTime))
+                @foreach (var show in tour.Shows.OrderBy(s => s.StartDateTime))
                 {
                     <article class="card card--list show-row">
                         <div class="show-row__left">
@@ -64,16 +72,24 @@ else
                                 </h3>
 
                                 <p class="card__meta">
-                                    @show.VenueName · 
-                                    @show.StartDateTime.ToString("ddd, MMM d, yyyy") · 
+                                    @show.VenueName ·
+                                    @show.StartDateTime.ToString("ddd, MMM d, yyyy") ·
                                     @show.StartDateTime.ToString("HH:mm")
                                 </p>
                             </div>
                         </div>
+
+                        @if (!string.IsNullOrWhiteSpace(show.TicketUrl))
+                        {
+                            <a class="btn btn--primary btn-cta"
+                               href="@show.TicketUrl"
+                               target="_blank" rel="noopener">
+                                Tickets
+                            </a>
+                        }
                     </article>
                 }
             </div>
-            
         }
     </section>
 }

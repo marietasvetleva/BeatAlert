@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace BeatAlert.Web.Pages;
 
-[AllowAnonymous] 
+[AllowAnonymous]
 public class Login : PageModel
 {
     private readonly LoginService _loginService;
@@ -18,28 +18,37 @@ public class Login : PageModel
     {
         _loginService = loginService;
     }
-    
-    
+
     [BindProperty]
     public LoginRequestDTO Input { get; set; } = new();
-    
-    public string ErrorMessage { get; set; }
+
+    [BindProperty]
     public bool RememberMe { get; set; }
-    
-    
+
+    public string? ErrorMessage { get; set; }
+
     public void OnGet()
     {
-        
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
+            return Page();
+
+        LoginResultDTO? result;
+
+        try
         {
+            result = _loginService.Login(Input);
+        }
+        catch
+        {
+            
+            ErrorMessage = "Login is temporarily unavailable. Please try again later.";
+            ModelState.AddModelError(string.Empty, ErrorMessage);
             return Page();
         }
-
-        var result = _loginService.Login(Input);
 
         if (result == null || !result.Success)
         {

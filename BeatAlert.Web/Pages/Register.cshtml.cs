@@ -28,14 +28,25 @@ public class Register : PageModel
 
     public IActionResult OnPost()
     {
-        RegistrationResultDTO result = _registrationService.Register(Input);
+        RegistrationResultDTO result;
+
+        try
+        {
+            result = _registrationService.Register(Input);
+        }
+        catch
+        {
+            ErrorMessage = "Registration is temporarily unavailable. Please try again later.";
+            return Page();
+        }
 
         if (!result.Success)
         {
             ErrorMessage = result.ErrorMessage;
+            ModelState.AddModelError(string.Empty, ErrorMessage);
             return Page();
         }
-
+        
         return RedirectToPage("/Index");
     }
     

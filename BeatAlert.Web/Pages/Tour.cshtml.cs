@@ -16,9 +16,19 @@ public class Tour : PageModel
     }
     
     public TourDetailsDto TourDetails { get; set; }
+    public string ErrorMessage { get; set; }
     
     public void OnGet(int id)
     {
-        TourDetails = _tourService.GetById(id);
+        try
+        {
+            TourDetails = _tourService.GetById(id);
+        }
+
+        catch (ServiceException exception)
+        {
+            ErrorMessage = exception.Message;
+        }
+        
     }
 }

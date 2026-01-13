@@ -34,32 +34,45 @@ public class LoginService
            return new LoginResultDTO { Success = false, ErrorMessage = "Please fill in all fields." };
        }
 
-       MusicLover? user = null;
-       
-       if (request.Identifier.Contains("@"))
+       try
        {
-           user = _userRepository.GetByEmail(request.Identifier);
-       }
-       else
-       {
-           user = _userRepository.GetByUsername(request.Identifier);
+           MusicLover? user = null;
+
+           if (request.Identifier.Contains("@"))
+           {
+               user = _userRepository.GetByEmail(request.Identifier);
+           }
+           else
+           {
+               user = _userRepository.GetByUsername(request.Identifier);
+           }
+
+           if (user is null)
+           {
+               return new LoginResultDTO { Success = false, ErrorMessage = "Invalid email/username or password." };
+           }
+
+           bool isPasswordMatched = (BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash));
+
+           if (isPasswordMatched == false)
+           {
+               return new LoginResultDTO { Success = false, ErrorMessage = "Invalid email/username or password." };
+           }
+
+           else
+           {
+               return new LoginResultDTO
+                   { Success = true, ErrorMessage = null, UserId = user.MusicLoverId, FirstName = user.FirstName };
+           }
        }
 
-       if (user is null)
+       catch (Exception)
        {
-           return new LoginResultDTO { Success = false, ErrorMessage = "Invalid email/username or password." };
-       }
-
-       bool isPasswordMatched = (BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash));
-       
-       if (isPasswordMatched == false)
-       {
-           return new LoginResultDTO { Success = false, ErrorMessage = "Invalid email/username or password." };
-       }
-
-       else
-       {
-           return new LoginResultDTO { Success = true, ErrorMessage = null, UserId = user.MusicLoverId, FirstName = user.FirstName };
+           return new LoginResultDTO
+           {
+               Success = false,
+               ErrorMessage = "Login is temporarily unavailable. Please try again later."
+           };
        }
        
        

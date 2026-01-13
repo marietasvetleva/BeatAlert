@@ -16,11 +16,20 @@ public class Artist : PageModel
     }
     
     public ArtistDetailsDTO ArtistDetails { get; set; }
+    public string ErrorMessage { get; set; }
     public bool IsFollowed = false;
     
     public void OnGet(int id)
     {
-        ArtistDetails = _artistService.GetById(id);
+        try
+        {
+            ArtistDetails = _artistService.GetById(id);
+        }
+
+        catch (ServiceException exception)
+        {
+            ErrorMessage = exception.Message;
+        }
         
     }
 }

@@ -21,35 +21,41 @@ public class ArtistService
         {
             return null;
         }
-        
-        
-        var artistEntity = _artistRepository.GetArtistById(id);
 
-        if (artistEntity == null)
+        try
         {
-            return null;
+            var artistEntity = _artistRepository.GetArtistById(id);
+
+            if (artistEntity == null)
+            {
+                return null;
+            }
+
+            var avatar = string.IsNullOrWhiteSpace(artistEntity.AvatarUrl)
+                ? "/images/placeholders/artist.png"
+                : artistEntity.AvatarUrl;
+
+            var banner = string.IsNullOrWhiteSpace(artistEntity.BannerUrl)
+                ? "/images/placeholders/artist.png"
+                : artistEntity.BannerUrl;
+
+            return new ArtistDetailsDTO
+            {
+                ArtistId = artistEntity.ArtistId,
+                StageName = artistEntity.StageName,
+                AvatarUrl = avatar,
+                BannerUrl = banner,
+                Biography = artistEntity.Biography,
+                Albums = artistEntity.Albums.Select(a => MapAlbum(a)).ToList(),
+                Tours = artistEntity.Tours.Select(t => MapTour(t)).ToList()
+
+            };
         }
-        
-        var avatar = string.IsNullOrWhiteSpace(artistEntity.AvatarUrl)
-            ? "/images/placeholders/artist.png"
-            : artistEntity.AvatarUrl;
-        
-        var banner = string.IsNullOrWhiteSpace(artistEntity.BannerUrl)
-            ? "/images/placeholders/artist.png"
-            : artistEntity.BannerUrl;
-        
-        return new ArtistDetailsDTO
-        {
-            ArtistId = artistEntity.ArtistId,
-            StageName = artistEntity.StageName,
-            AvatarUrl = avatar,
-            BannerUrl = banner,
-            Biography = artistEntity.Biography,
-            Albums = artistEntity.Albums.Select(a => MapAlbum(a)).ToList(),
-            Tours = artistEntity.Tours.Select(t => MapTour(t)).ToList()
 
-        };
-        
+        catch (Exception exception)
+        {
+            throw new ServiceException("Could not load artist details. Please try again later.", exception);
+        }
     }
     
     private AlbumDTO MapAlbum(Album album)

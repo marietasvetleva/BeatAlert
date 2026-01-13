@@ -39,52 +39,65 @@ public class RegistrationService : IRegistrationService
 
         }
 
-        var existingEmail = _userRepository.GetByEmail(request.Email);
+        try
+        {
+            var existingEmail = _userRepository.GetByEmail(request.Email);
 
-        if (existingEmail != null)
+            if (existingEmail != null)
+            {
+                return new RegistrationResultDTO
+                {
+                    Success = false,
+                    ErrorMessage = "This email address is already in use.",
+                    NewUserId = null
+                };
+            }
+
+            var existingusername = _userRepository.GetByUsername(request.Username);
+
+            if (existingusername != null)
+            {
+                return new RegistrationResultDTO
+                {
+                    Success = false,
+                    ErrorMessage = "This username address is already in use.",
+                    NewUserId = null
+                };
+            }
+
+            var passwordHash = BCryptNet.HashPassword(request.Password);
+
+            var musicLover = new MusicLover
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Username = request.Username,
+                HomeCity = request.HomeCity,
+                PasswordHash = passwordHash,
+                AvatarUrl = "/images/default-avatar.jpg"
+            };
+
+            var newUserId = _userRepository.CreateUser(musicLover);
+
+            return new RegistrationResultDTO
+            {
+                Success = true,
+                ErrorMessage = null,
+                NewUserId = newUserId
+            };
+
+        }
+
+        catch (Exception)
         {
             return new RegistrationResultDTO
             {
                 Success = false,
-                ErrorMessage = "This email address is already in use.",
+                ErrorMessage = "Registration is temporarily unavailable. Please try again later.",
                 NewUserId = null
             };
+
         }
-
-        var existingusername = _userRepository.GetByUsername(request.Username);
-
-        if (existingusername != null)
-        {
-            return new RegistrationResultDTO
-            {
-                Success = false,
-                ErrorMessage = "This username address is already in use.",
-                NewUserId = null
-            };
-        }
-
-        var passwordHash = BCryptNet.HashPassword(request.Password);
-
-        var musicLover = new MusicLover
-        {
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Email = request.Email,
-            Username = request.Username,
-            HomeCity = request.HomeCity,
-            PasswordHash = passwordHash,
-            AvatarUrl = "/images/default-avatar.jpg"
-        };
-
-        var newUserId = _userRepository.CreateUser(musicLover);
-
-        return new RegistrationResultDTO
-        {
-            Success = true,
-            ErrorMessage = null,
-            NewUserId = newUserId
-        };
-
-
     }
 }

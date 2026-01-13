@@ -1,5 +1,7 @@
 using BeatAlert.Logic.DTOs;
+using BeatAlert.Logic;
 using BeatAlert.Logic.Interfaces;
+using BeatAlert.Logic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,11 +21,21 @@ public class Search : PageModel
     [BindProperty(SupportsGet = true)]
     public string? Query { get; set; }
 
+    public string ErrorMessage { get; set; }
     public GlobalSearchResultsDto Result { get; private set; } = new();
     
     
     public void OnGet()
     {
-        Result = _globalSearchService.Search(Query);
+        try
+        {
+            Result = _globalSearchService.Search(Query);
+        }
+
+        catch (ServiceException exception)
+        {
+            ErrorMessage = exception.Message;
+        }
+       
     }
 }

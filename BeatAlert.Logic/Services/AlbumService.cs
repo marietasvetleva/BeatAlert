@@ -18,24 +18,34 @@ public class AlbumService : IAlbumService
 
     public List<AlbumDTO> GetNewAlbums()
     {
-        var cutoff = DateOnly.FromDateTime(DateTime.Today).AddDays(-60);
-        var albums = _albumRepository.GetAllAlbums();
-        
-        var newAlbums = albums
-            .Where(a => a.ReleaseDate >= cutoff)
-            .OrderByDescending(a => a.ReleaseDate)
-            .Select(a => new AlbumDTO
-            {
-                AlbumId = a.AlbumId,
-                Title = a.Title,
-                CoverImage = a.CoverImage,
-                ReleaseDate = a.ReleaseDate,
-                Duration = a.Duration,
-                
-            })
-            .ToList();
+        try
+        {
+            var cutoff = DateOnly.FromDateTime(DateTime.Today).AddDays(-60);
+            var albums = _albumRepository.GetAllAlbums();
 
-        return newAlbums;
+            var newAlbums = albums
+                .Where(a => a.ReleaseDate >= cutoff)
+                .OrderByDescending(a => a.ReleaseDate)
+                .Select(a => new AlbumDTO
+                {
+                    AlbumId = a.AlbumId,
+                    Title = a.Title,
+                    CoverImage = a.CoverImage,
+                    ReleaseDate = a.ReleaseDate,
+                    Duration = a.Duration,
+
+                })
+                .ToList();
+
+            return newAlbums;
+
+        }
+
+        catch(Exception exception)
+        {
+            throw new ServiceException("Could not load the recently uploaded albums. Please try again later.", exception);
+        }
+        
         
     }
     
@@ -46,31 +56,39 @@ public class AlbumService : IAlbumService
             return null;
         }
 
-        var albumEntity = _albumRepository.GetAlbumById(id);
-
-        if (albumEntity == null)
+        try
         {
-            return null;
+            var albumEntity = _albumRepository.GetAlbumById(id);
+
+            if (albumEntity == null)
+            {
+                return null;
+            }
+        
+            var cover = string.IsNullOrWhiteSpace(albumEntity.CoverImage)
+                ? "/images/placeholders/album.png"
+                : albumEntity.CoverImage;
+
+            return new AlbumDTO
+            {
+                AlbumId = albumEntity.AlbumId,
+                Title = albumEntity.Title,
+                ReleaseDate = albumEntity.ReleaseDate,
+                Duration = albumEntity.Duration,
+                CoverImage = cover,
+                ArtistName = albumEntity.Artists
+                    .Select(a => a.StageName)
+                    .FirstOrDefault() ?? "Unknown artist",
+                Songs = albumEntity.Songs.Select(s => MapSong(s)).ToList()
+
+            };
+            
         }
         
-        var cover = string.IsNullOrWhiteSpace(albumEntity.CoverImage)
-            ? "/images/placeholders/album.png"
-            : albumEntity.CoverImage;
-
-        return new AlbumDTO
+        catch (Exception exception)
         {
-            AlbumId = albumEntity.AlbumId,
-            Title = albumEntity.Title,
-            ReleaseDate = albumEntity.ReleaseDate,
-            Duration = albumEntity.Duration,
-            CoverImage = cover,
-            ArtistName = albumEntity.Artists
-                .Select(a => a.StageName)
-                .FirstOrDefault() ?? "Unknown artist",
-            Songs = albumEntity.Songs.Select(s => MapSong(s)).ToList()
-
-        };
-        
+            throw new ServiceException("Could not load album details. Please try again later.", exception);
+        }
     }
     
     private SongDTO MapSong(Song song)
@@ -100,10 +118,6 @@ public class AlbumService : IAlbumService
     {
         return (DateTime.Now - releaseDate).TotalDays <= 30;
     }
-
-    public List<Album> GetAllAlbums()
-    {
-        return _albumRepository.GetAllAlbums();
-    }
+    
     
 }
