@@ -17,7 +17,6 @@ public class Album : PageModel
     
     public AlbumDTO AlbumDetails { get; set; }
     
-    public List<SongDTO> Songs { get; set; }
     
     
     public void OnGet(int id)

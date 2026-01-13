@@ -16,7 +16,6 @@ public class Tour : PageModel
     }
     
     public TourDetailsDto TourDetails { get; set; }
-    public List<ShowDTO> Show { get; set; }
     
     public void OnGet(int id)
     {

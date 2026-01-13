@@ -33,7 +33,6 @@ builder.Services.AddScoped<ITourRepository>(_ => new TourRepository(connectionSt
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
 
 
-builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<IGlobalSearchService, GlobalSearchService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<ArtistService>();

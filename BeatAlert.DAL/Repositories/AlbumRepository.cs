@@ -72,6 +72,12 @@ namespace BeatAlert.DAL.Repositories
             FROM Song
             WHERE album_id = @Id
             ORDER BY song_id;
+
+            -- 2) Artist
+            SELECT a.artist_id, a.stage_name, a.image_url, a.banner_url, a.biography
+            FROM Artist a
+            JOIN Album_Artist aa ON a.artist_id = aa.artist_id
+            WHERE aa.album_id = @Id;
         ";
 
         using (var command = new SqlCommand(query, connection))
@@ -103,13 +109,11 @@ namespace BeatAlert.DAL.Repositories
                 }
                 else
                 {
-                    return null; // album not found
+                    return null;
                 }
 
-                // 2) Move to songs result set
                 reader.NextResult();
 
-                // Read ALL songs
                 while (reader.Read())
                 {
                     album.Songs.Add(new Song
@@ -128,6 +132,28 @@ namespace BeatAlert.DAL.Repositories
                     });
                 }
 
+                reader.NextResult();
+
+                if (reader.Read())
+                {
+                    album.Artists.Add(new Artist
+                    {
+                        ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
+                        StageName = reader.GetString(reader.GetOrdinal("stage_name")),
+                        AvatarUrl = reader.IsDBNull(reader.GetOrdinal("image_url"))
+                            ? "/images/placeholders/artist.png"
+                            : reader.GetString(reader.GetOrdinal("image_url")),
+                        BannerUrl = reader.IsDBNull(reader.GetOrdinal("banner_url"))
+                            ? "/images/default-banner.jpg"
+                            : reader.GetString(reader.GetOrdinal("banner_url")),
+                        Biography = reader.IsDBNull(reader.GetOrdinal("biography"))
+                            ? "No biography available."
+                            : reader.GetString(reader.GetOrdinal("biography")),
+                        Albums = new List<Album>(),
+                        Songs = new List<Song>(),
+                        Tours = new List<Tour>()
+                    });
+                }
                 return album;
             }
         }

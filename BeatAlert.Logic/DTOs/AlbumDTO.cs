@@ -8,5 +8,6 @@ public class AlbumDTO
     public int Duration { get; set; }
     public string CoverImage { get; set; }
     
+    public string ArtistName { get; set; }
     public List<SongDTO> Songs { get; set; }
 }

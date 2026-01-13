@@ -1,7 +1,18 @@
 @model BeatAlert.Logic.DTOs.AlbumDTO
 
-<div class="card">
-    <img src="@(!string.IsNullOrEmpty(Model.CoverImage) ? Model.CoverImage : "/images/default-cover.jpg")" alt="@Model.Title cover" />
-    <h4>@Model.Title</h4>
-    <p>@Model.ReleaseDate</p>
-</div>
+<a asp-page="/Album"
+   asp-route-id="@Model.AlbumId"
+   class="card card--release card--link">
+
+    <img src="@(!string.IsNullOrEmpty(Model.CoverImage) ? Model.CoverImage : "/images/placeholders/album.png")"
+         alt="@Model.Title cover"
+         class="card__thumb" />
+
+    <div class="card__body">
+        <h4 class="card__title">@Model.Title</h4>
+        <p class="card__meta">
+            @Model.ReleaseDate?.Year
+        </p>
+    </div>
+
+</a>

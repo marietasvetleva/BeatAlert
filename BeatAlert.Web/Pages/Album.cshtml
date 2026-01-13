@@ -18,7 +18,7 @@
 
     var album = Model.AlbumDetails;
     var songs = album?.Songs ?? new();
-    var totalSeconds = songs.Sum(s => (int)s.Duration); // duration in seconds
+    var totalSeconds = songs.Sum(s => (int)s.Duration); 
 }
 
 @if (album == null)
@@ -46,6 +46,8 @@ else
                 <h1 class="album-hero2__title">@album.Title</h1>
 
                 <div class="album-hero2__meta">
+                    <span>@album.ArtistName</span>
+                    <span class="dot">•</span>
                     <span>@FormatDate(album.ReleaseDate)</span>
                     <span class="dot">•</span>
                     <span>@songs.Count tracks</span>

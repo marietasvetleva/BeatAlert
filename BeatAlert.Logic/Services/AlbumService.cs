@@ -16,6 +16,29 @@ public class AlbumService : IAlbumService
         _albumRepository = albumRepository;
     }
 
+    public List<AlbumDTO> GetNewAlbums()
+    {
+        var cutoff = DateOnly.FromDateTime(DateTime.Today).AddDays(-60);
+        var albums = _albumRepository.GetAllAlbums();
+        
+        var newAlbums = albums
+            .Where(a => a.ReleaseDate >= cutoff)
+            .OrderByDescending(a => a.ReleaseDate)
+            .Select(a => new AlbumDTO
+            {
+                AlbumId = a.AlbumId,
+                Title = a.Title,
+                CoverImage = a.CoverImage,
+                ReleaseDate = a.ReleaseDate,
+                Duration = a.Duration,
+                
+            })
+            .ToList();
+
+        return newAlbums;
+        
+    }
+    
     public AlbumDTO GetById(int id)
     {
         if (id <= 0)
@@ -41,6 +64,9 @@ public class AlbumService : IAlbumService
             ReleaseDate = albumEntity.ReleaseDate,
             Duration = albumEntity.Duration,
             CoverImage = cover,
+            ArtistName = albumEntity.Artists
+                .Select(a => a.StageName)
+                .FirstOrDefault() ?? "Unknown artist",
             Songs = albumEntity.Songs.Select(s => MapSong(s)).ToList()
 
         };
@@ -55,6 +81,18 @@ public class AlbumService : IAlbumService
             Duration = song.DurationSeconds,
             Lyrics = song.Lyrics,
             ReleaseDate = song.ReleaseDate
+        };
+    }
+
+    private ArtistDetailsDTO MapArtist(Artist artist)
+    {
+        return new ArtistDetailsDTO
+        {
+            ArtistId = artist.ArtistId,
+            StageName = artist.StageName,
+            AvatarUrl = artist.AvatarUrl,
+            BannerUrl = artist.BannerUrl,
+            Biography = artist.Biography,
         };
     }
     

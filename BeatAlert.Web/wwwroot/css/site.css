@@ -212,6 +212,13 @@ body.app {
     justify-self: start;
 }
 
+.card--link{
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+
 .card__thumb {
     width: 100%;
     aspect-ratio: 1 / 1;
