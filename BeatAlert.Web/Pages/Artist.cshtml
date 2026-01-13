@@ -1,0 +1,128 @@
+@page "{id:int}"
+@model BeatAlert.Web.Pages.Artist
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model.ArtistDetails?.StageName ?? "Artist";
+
+    var artist = Model.ArtistDetails;
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="page-section">
+        <h1 class="page-title">Something went wrong</h1>
+        <p class="page-subtitle">@Model.ErrorMessage</p>
+    </section>
+}
+else if (artist == null)
+{
+    <section class="page-section">
+        <h1 class="page-title">Artist not found</h1>
+        <p class="page-subtitle">We couldn’t load this artist.</p>
+    </section>
+}
+else
+{
+    <section class="artist-hero">
+        <img src="@(artist.BannerUrl ?? "/images/placeholders/artist.png")"
+             alt="@artist.StageName banner"
+             class="artist-hero__bg"
+             onerror="this.src='/images/placeholders/artist.png'" />
+
+        <div class="artist-hero__overlay"></div>
+
+        <div class="artist-hero__content">
+            <div>
+                <h1 class="artist-hero__name">@artist.StageName</h1>
+            </div>
+
+            <div class="artist-hero__actions">
+                <form method="post">
+                    <button type="submit" class="btn btn--primary">
+                        Follow
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biography -->
+    <section class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Biography</h2>
+        </div>
+
+        <p>@(string.IsNullOrWhiteSpace(artist.Biography) ? "No biography available." : artist.Biography)</p>
+    </section>
+
+    <!-- Albums -->
+    <section class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Albums</h2>
+        </div>
+
+        @if (artist.Albums == null || !artist.Albums.Any())
+        {
+            <div class="empty-state2">
+                <h3>No albums yet</h3>
+                <p>This artist doesn’t have any albums listed.</p>
+            </div>
+        }
+        else
+        {
+            <div class="grid grid--3">
+                @foreach (var album in artist.Albums)
+                {
+                    <a asp-page="/Album"
+                       asp-route-id="@album.AlbumId"
+                       class="card card--release card--link">
+
+                        <img src="@(album.CoverImage ?? "/img/placeholder-album.jpg")"
+                             alt="@album.Title cover"
+                             class="card__thumb"
+                             onerror="this.src='/img/placeholder-album.jpg'" />
+
+                        <div class="card__body">
+                            <h3 class="card__title">@album.Title</h3>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </section>
+
+    <!-- Tours -->
+    <section class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Tours</h2>
+        </div>
+
+        @if (artist.Tours == null || !artist.Tours.Any())
+        {
+            <div class="empty-state2">
+                <h3>No tours yet</h3>
+                <p>This artist doesn’t have any tours listed.</p>
+            </div>
+        }
+        else
+        {
+            <div class="stack">
+                @foreach (var tour in artist.Tours)
+                {
+                    <article class="card card--list">
+                        <div>
+                            <h3 class="card__title">@tour.Name</h3>
+                            <p class="card__meta">@tour.Description</p>
+                        </div>
+
+                        <a asp-page="/Tour"
+                           asp-route-id="@tour.TourId"
+                           class="btn btn--primary btn-cta">
+                            View dates
+                        </a>
+                    </article>
+                }
+            </div>
+        }
+    </section>
+}

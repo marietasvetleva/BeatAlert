@@ -1,10 +1,54 @@
-﻿@page
-@model IndexModel
+@page
+@model BeatAlert.Web.Pages.Index
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Start Up";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="landing-hero page-section">
+    
+    <img src="/images/startup.jpg"
+         class="landing-hero__bg"
+         alt="Live music crowd" />
+    
+    <div class="landing-hero__overlay"></div>
+    
+    <div class="landing-hero__content">
+        <p class="landing-hero__eyebrow">Music notifications · In one place</p>
+
+        <h1 class="landing-hero__title">Never miss a new release again.</h1>
+
+        <p class="landing-hero__subtitle">
+            BeatAlert keeps you updated on your favorite artists — new songs, albums,
+            and upcoming concerts. All in one place, right when it happens.
+        </p>
+
+        <div class="landing-hero__actions">
+            <a asp-page="/Register" class="btn btn--primary btn-cta">
+                Start now
+            </a>
+        </div>
+    </div>
+
+</section>
+
+<section class="landing-features page-section">
+    <h2 class="section-title">Why use BeatAlert?</h2>
+
+    <div class="feature-grid">
+        <article class="feature-card">
+            <h3>Track your favorite artists</h3>
+            <p>Follow artists you love and keep all their activity in one place.</p>
+        </article>
+
+        <article class="feature-card">
+            <h3>Real-time release alerts</h3>
+            <p>Get notified the moment a new single, EP or album drops.</p>
+        </article>
+
+        <article class="feature-card">
+            <h3>Concert & tour updates</h3>
+            <p>Stay ahead of tour dates so you never miss tickets again.</p>
+        </article>
+    </div>
+</section>

@@ -1,0 +1,108 @@
+@page
+@model Register
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Create Account";
+}
+
+<section class="page-section" style="max-width: 520px; margin: 0 auto;">
+    <h1 class="page-title">Create your account</h1>
+    <p class="page-subtitle">
+        Sign up to follow your favorite artists and get notified about new releases and concerts.
+    </p>
+
+    <form method="post" class="auth-form">
+
+        <!-- First name -->
+        <div class="form-group">
+            <label for="FirstName">First Name</label>
+
+            <input id="FirstName"
+                   name="Input.FirstName"
+                   class="form-control auth-input"
+                   asp-for="Input.FirstName" />
+
+            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+        </div>
+
+        <!-- Last name -->
+        <div class="form-group">
+            <label for="LastName">Last Name</label>
+
+            <input id="LastName"
+                   name="Input.LastName"
+                   class="form-control auth-input"
+                   asp-for="Input.LastName" />
+
+            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+        </div>
+
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="Email">Email</label>
+
+            <input id="Email"
+                   name="Input.Email"
+                   class="form-control auth-input"
+                   asp-for="Input.Email" />
+
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+
+
+        <!-- Username -->
+        <div class="form-group">
+            <label for="Username">Username</label>
+
+            <input id="Username"
+                   name="Input.Username"
+                   class="form-control auth-input"
+                   asp-for="Input.Username" />
+
+            <span asp-validation-for="Input.Username" class="text-danger"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="Password">Password</label>
+
+            <input id="Password"
+                   name="Input.Password"
+                   class="form-control auth-input"
+                   asp-for="Input.Password" />
+
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+
+        <!-- Home city -->
+        <div class="form-group">
+            <label for="HomeCity">Home City</label>
+
+            <input id="HomeCity"
+                   name="Input.HomeCity"
+                   class="form-control auth-input"
+                   asp-for="Input.HomeCity" />
+
+            <span asp-validation-for="Input.HomeCity" class="text-danger"></span>
+        </div>
+
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="text-danger" style="margin-top: 4px;">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        <button type="submit" class="btn btn--primary" style="margin-top: 14px;">
+            Create account
+        </button>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,101 @@
+@page "{id:int}"
+@using System.Globalization
+@using System.Linq
+@model BeatAlert.Web.Pages.Album
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model.AlbumDetails?.Title ?? "Album";
+
+    string FormatSeconds(int seconds)
+    {
+        if (seconds < 0) return "0:00";
+        var ts = TimeSpan.FromSeconds(seconds);
+        return ts.Hours > 0 ? ts.ToString(@"h\:mm\:ss") : ts.ToString(@"m\:ss");
+    }
+
+    string FormatDate(DateOnly? dt)
+        => dt.HasValue ? dt.Value.ToString("dd MMM yyyy", CultureInfo.InvariantCulture) : "—";
+
+    var album = Model.AlbumDetails;
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="page-section">
+        <h1 class="page-title">Something went wrong</h1>
+        <p class="page-subtitle">@Model.ErrorMessage</p>
+    </section>
+}
+else if (album == null)
+{
+    <section class="page-section">
+        <h1 class="page-title">Album not found</h1>
+        <p class="page-subtitle">We couldn’t load this album.</p>
+    </section>
+}
+else
+{
+    var songs = album.Songs ?? new();
+    var totalSeconds = songs.Sum(s => (int)s.Duration);
+
+    
+    <section class="album-hero2">
+        <div class="album-hero2__bg"
+             style="background-image:url('@(album.CoverImage ?? "/images/placeholder/album.png")')"></div>
+
+        <div class="album-hero2__inner">
+            <img class="album-hero2__cover"
+                 src="@(album.CoverImage ?? "/images/placeholder/album.png")"
+                 alt="@album.Title cover"
+                 onerror="this.src='/images/placeholder/album.png'" />
+
+            <div class="album-hero2__text">
+                <p class="album-hero2__type">Album</p>
+                <h1 class="album-hero2__title">@album.Title</h1>
+
+                <div class="album-hero2__meta">
+                    <span>@album.ArtistName</span>
+                    <span class="dot">•</span>
+                    <span>@FormatDate(album.ReleaseDate)</span>
+                    <span class="dot">•</span>
+                    <span>@songs.Count tracks</span>
+                    <span class="dot">•</span>
+                    <span>@FormatSeconds(totalSeconds)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Songs list -->
+    <section class="album-body">
+        <div class="songs-card">
+            <div class="songs-head">
+                <div class="songs-head__col songs-head__col--idx">#</div>
+                <div class="songs-head__col">Title</div>
+                <div class="songs-head__col songs-head__col--dur">Duration</div>
+                <div class="songs-head__col songs-head__col--date">Release date</div>
+            </div>
+
+            @if (!songs.Any())
+            {
+                <div class="empty-state2">
+                    <h3>No songs yet</h3>
+                    <p>Add songs to this album and they’ll appear here.</p>
+                </div>
+            }
+            else
+            {
+                @for (int i = 0; i < songs.Count; i++)
+                {
+                    var s = songs[i];
+                    <div class="song-row2">
+                        <div class="song-row2__idx">@(i + 1)</div>
+                        <div class="song-row2__title">@s.Title</div>
+                        <div class="song-row2__dur">@FormatSeconds((int)s.Duration)</div>
+                        <div class="song-row2__date">@FormatDate(s.ReleaseDate)</div>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+}

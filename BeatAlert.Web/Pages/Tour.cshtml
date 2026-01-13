@@ -1,0 +1,95 @@
+@page "{id:int}"
+@using System.Linq
+@model BeatAlert.Web.Pages.Tour
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model.TourDetails?.Name ?? "Tour";
+
+    var tour = Model.TourDetails;
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="page-section">
+        <h1 class="page-title">Something went wrong</h1>
+        <p class="page-subtitle">@Model.ErrorMessage</p>
+    </section>
+}
+else if (tour == null)
+{
+    <section class="page-section">
+        <h1 class="page-title">Tour not found</h1>
+        <p class="page-subtitle">We couldn’t load this tour.</p>
+    </section>
+}
+else
+{
+    <section class="tour-hero">
+        <img src="@(tour.PromoPic ?? "/images/placeholder/tour.png")"
+             alt="@tour.Name promo"
+             class="tour-hero__bg"
+             onerror="this.src='/images/placeholder/tour.png'" />
+
+        <div class="tour-hero__overlay"></div>
+
+        <div class="tour-hero__content">
+            <div>
+                <h1 class="tour-hero__name">@tour.Name</h1>
+                <p class="tour-hero__meta">
+                    @(string.IsNullOrWhiteSpace(tour.Description)
+                        ? "No description available."
+                        : tour.Description)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DATES -->
+    <section id="dates" class="page-section">
+        <div class="section-header">
+            <h2 class="section-title">Dates</h2>
+        </div>
+
+        @if (tour.Shows == null || !tour.Shows.Any())
+        {
+            <p class="page-subtitle">No shows have been added for this tour yet.</p>
+        }
+        else
+        {
+            <div class="stack">
+                @foreach (var show in tour.Shows.OrderBy(s => s.StartDateTime))
+                {
+                    <article class="card card--list show-row">
+                        <div class="show-row__left">
+                            <div class="show-date">
+                                <div class="show-date__day">@show.StartDateTime.ToString("dd")</div>
+                                <div class="show-date__month">@show.StartDateTime.ToString("MMM").ToUpper()</div>
+                            </div>
+
+                            <div class="show-info">
+                                <h3 class="card__title show-title">
+                                    @show.City, @show.Country
+                                </h3>
+
+                                <p class="card__meta">
+                                    @show.VenueName ·
+                                    @show.StartDateTime.ToString("ddd, MMM d, yyyy") ·
+                                    @show.StartDateTime.ToString("HH:mm")
+                                </p>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(show.TicketUrl))
+                        {
+                            <a class="btn btn--primary btn-cta"
+                               href="@show.TicketUrl"
+                               target="_blank" rel="noopener">
+                                Tickets
+                            </a>
+                        }
+                    </article>
+                }
+            </div>
+        }
+    </section>
+}

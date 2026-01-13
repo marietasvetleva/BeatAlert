@@ -1,0 +1,156 @@
+@page
+@model BeatAlert.Web.Pages.Search
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Search";
+
+    var result = Model.Result;
+}
+
+<section class="page-section">
+    <h1 class="page-title">
+        Results for "@(result?.Query ?? "")"
+    </h1>
+    <p class="page-subtitle">
+        Showing matches across artists, albums, songs and tours.
+    </p>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="page-section">
+        <h2 class="section-title">Something went wrong</h2>
+        <p class="page-subtitle">@Model.ErrorMessage</p>
+    </section>
+}
+else if (result == null || string.IsNullOrWhiteSpace(result.Query))
+{
+    <section class="page-section">
+        <h2 class="section-title">Type something to search</h2>
+        <p class="page-subtitle">Try an artist name, album title, song, or tour.</p>
+    </section>
+}
+else
+{
+    var hasAny =
+        (result.Artists?.Any() ?? false) ||
+        (result.Albums?.Any() ?? false) ||
+        (result.Songs?.Any() ?? false) ||
+        (result.Tours?.Any() ?? false);
+
+    if (!hasAny)
+    {
+        <section class="page-section">
+            <h2 class="section-title">No results</h2>
+            <p class="page-subtitle">We couldn’t find anything for "@result.Query".</p>
+        </section>
+    }
+
+    @* Artists *@
+    if (result.Artists != null && result.Artists.Any())
+    {
+        <section class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">Artists</h2>
+            </div>
+
+            <div class="grid grid--3">
+                @foreach (var artist in result.Artists)
+                {
+                    <a asp-page="/Artist"
+                       asp-route-id="@artist.ArtistId"
+                       class="card card--artist card--link">
+                        <img src="@(artist.AvatarUrl ?? "/images/placeholders/artist.png")"
+                             class="card__thumb"
+                             alt="@artist.StageName"
+                             onerror="this.src='/images/placeholders/artist.png'" />
+
+                        <div class="card__body">
+                            <h3 class="card__title">@artist.StageName</h3>
+                            <p class="card__meta">Artist</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+
+    @* Albums *@
+    if (result.Albums != null && result.Albums.Any())
+    {
+        <section class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">Albums</h2>
+            </div>
+
+            <div class="grid grid--3">
+                @foreach (var album in result.Albums)
+                {
+                    <a asp-page="/Album"
+                       asp-route-id="@album.AlbumId"
+                       class="card card--release card--link">
+                        <img src="@(album.CoverImageUrl ?? "/img/placeholder-album.jpg")"
+                             class="card__thumb"
+                             alt="@album.Title"
+                             onerror="this.src='/img/placeholder-album.jpg'" />
+
+                        <div class="card__body">
+                            <h3 class="card__title">@album.Title</h3>
+                            <p class="card__meta">Album</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+
+    @* Songs *@
+    if (result.Songs != null && result.Songs.Any())
+    {
+        <section class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">Songs</h2>
+            </div>
+
+            <ul class="search-list">
+                @foreach (var song in result.Songs)
+                {
+                    <li class="search-list__item">
+                        <span class="search-list__title">@song.Title</span>
+                        <span class="search-list__meta">Song</span>
+                    </li>
+                }
+            </ul>
+        </section>
+    }
+
+    @* Tours *@
+    if (result.Tours != null && result.Tours.Any())
+    {
+        <section class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">Tours</h2>
+            </div>
+
+            <div class="grid grid--3">
+                @foreach (var tour in result.Tours)
+                {
+                    <a asp-page="/Tour"
+                       asp-route-id="@tour.TourId"
+                       class="card card--tour card--link">
+                        <img src="@(tour.PromoImageUrl ?? "/img/placeholder-tour.jpg")"
+                             class="card__thumb"
+                             alt="@tour.TourName"
+                             onerror="this.src='/img/placeholder-tour.jpg'" />
+
+                        <div class="card__body">
+                            <h3 class="card__title">@tour.TourName</h3>
+                            <p class="card__meta">Tour</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+}
