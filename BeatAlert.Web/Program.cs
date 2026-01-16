@@ -31,6 +31,7 @@ builder.Services.AddScoped<ISongRepository>(_ => new SongRepository(connectionSt
 builder.Services.AddScoped<IShowRepository>(_ => new ShowRepository(connectionString));
 builder.Services.AddScoped<ITourRepository>(_ => new TourRepository(connectionString));
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
+builder.Services.AddScoped<IFollowRepository>(_ => new FollowRepository(connectionString));
 
 
 builder.Services.AddScoped<IGlobalSearchService, GlobalSearchService>();
@@ -39,6 +40,7 @@ builder.Services.AddScoped<ArtistService>();
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<TourService>();
 builder.Services.AddScoped<AlbumService>();
+builder.Services.AddScoped<FollowService>();
 
 var app = builder.Build();
 

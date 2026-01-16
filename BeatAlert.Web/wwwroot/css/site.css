@@ -567,7 +567,16 @@ body.app {
     transition: transform 0.12s ease-out;
 }
 
-.card--tour {}
+.card--tour
+{ width: 100%;
+    max-width: 260px;
+    justify-self: start;
+}
+
+.card--tour:hover {
+    transform: translateY(-2px);
+    transition: transform 0.12s ease-out;
+}
 
 /* HERO SECTION */
 .landing-hero {
