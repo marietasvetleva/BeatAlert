@@ -36,13 +36,12 @@ else
                 <h1 class="artist-hero__name">@artist.StageName</h1>
             </div>
 
-            <div class="artist-hero__actions">
-                <form method="post">
-                    <button type="submit" class="btn btn--primary">
-                        Follow
-                    </button>
-                </form>
-            </div>
+            <form method="post" asp-page-handler="ToggleFollow" asp-route-id="@Model.ArtistDetails.ArtistId">
+                <button type="submit" class="btn btn--primary">
+                    @(Model.IsFollowed ? "Unfollow" : "Follow")
+                </button>
+            </form>
+
         </div>
     </section>
 

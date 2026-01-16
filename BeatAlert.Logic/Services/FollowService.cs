@@ -11,18 +11,21 @@ public class FollowService
         _followRepository = followRepository;
     }
 
-    // public bool IsFollowed(int music_lover_id, int artist_id)
-    // { 
-    //     
-    // }
-    //
-    // public void Follow(int music_lover_id, int artist_id)
-    // {
-    //     
-    // }
-    //
-    // public void Unfollow(int music_lover_id, int artist_id)
-    // {
-    //     
-    // }
+    public bool IsFollowed(int music_lover_id, int artist_id)
+    {
+        return _followRepository.Exists(music_lover_id, artist_id);
+    }
+
+    public bool ToggleFollow(int music_lover_id, int artist_id)
+    {
+        if (_followRepository.Exists(music_lover_id, artist_id))
+        {
+            _followRepository.Remove(music_lover_id, artist_id);
+            return false;
+        }
+        
+        _followRepository.Add(music_lover_id, artist_id);
+            return true;
+        
+    }
 }
