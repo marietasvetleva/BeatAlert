@@ -54,7 +54,7 @@ public class ArtistService
 
         catch (Exception exception)
         {
-            throw new ServiceException("Could not load artist details. Please try again later.", exception);
+            throw new ServiceException("Could not load artist details.", exception);
         }
     }
     

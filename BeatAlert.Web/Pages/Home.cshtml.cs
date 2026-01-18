@@ -18,7 +18,6 @@ namespace BeatAlert.Web.Pages
 
         public List<AlbumDTO> Albums { get; set; }
         public string FirstName { get; set; }
-
         public void OnGet()
         {
             Albums = _albumService.GetNewAlbums();

@@ -1,7 +1,9 @@
 using BeatAlert.DAL.Repositories;
 using BeatAlert.Logic.Interfaces___Repositories;
+using BeatAlert.Logic.Interfaces___Service;
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Services;
+using BeatAlert.Logic.Services.SearchProviders;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 
@@ -28,11 +30,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IAlbumRepository>(_ => new AlbumRepository(connectionString));
 builder.Services.AddScoped<IArtistRepository>(_ => new ArtistRepository(connectionString));
 builder.Services.AddScoped<ISongRepository>(_ => new SongRepository(connectionString));
-builder.Services.AddScoped<IShowRepository>(_ => new ShowRepository(connectionString));
 builder.Services.AddScoped<ITourRepository>(_ => new TourRepository(connectionString));
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
 builder.Services.AddScoped<IFollowRepository>(_ => new FollowRepository(connectionString));
-
 
 builder.Services.AddScoped<IGlobalSearchService, GlobalSearchService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
@@ -41,6 +41,10 @@ builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<TourService>();
 builder.Services.AddScoped<AlbumService>();
 builder.Services.AddScoped<FollowService>();
+builder.Services.AddScoped<IGlobalSearchProvider, ArtistSearchProvider>();
+builder.Services.AddScoped<IGlobalSearchProvider, AlbumSearchProvider>();
+builder.Services.AddScoped<IGlobalSearchProvider, SongSearchProvider>();
+builder.Services.AddScoped<IGlobalSearchProvider, TourSearchProvider>();
 
 var app = builder.Build();
 
@@ -49,6 +53,10 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+}
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Test"))
+{
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
@@ -60,3 +68,4 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.Run();
+public partial class Program { }

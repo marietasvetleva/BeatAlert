@@ -1,3 +1,4 @@
+using BeatAlert.Logic.DTOs;
 using BeatAlert.Logic.Interfaces___Repositories;
 
 namespace BeatAlert.Logic.Services;
@@ -15,6 +16,11 @@ public class FollowService
     {
         return _followRepository.Exists(music_lover_id, artist_id);
     }
+
+    // public List<FollowedArtistDTO> GetFollowedList(int id)
+    // {
+    //     
+    // }
 
     public bool ToggleFollow(int music_lover_id, int artist_id)
     {
