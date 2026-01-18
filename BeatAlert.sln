@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatAlert.DAL", "BeatAlert.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatAlert.Tests", "BeatAlert.Tests\BeatAlert.Tests.csproj", "{2E9EC761-78B0-447C-8361-FF4EBBB09BD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatAlert.IntegrationTests", "BeatAlert.IntegrationTests \BeatAlert.IntegrationTests.csproj", "{08BD17C2-4070-4EFB-9D46-BD1578E29AD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{2E9EC761-78B0-447C-8361-FF4EBBB09BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E9EC761-78B0-447C-8361-FF4EBBB09BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E9EC761-78B0-447C-8361-FF4EBBB09BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08BD17C2-4070-4EFB-9D46-BD1578E29AD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08BD17C2-4070-4EFB-9D46-BD1578E29AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08BD17C2-4070-4EFB-9D46-BD1578E29AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08BD17C2-4070-4EFB-9D46-BD1578E29AD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

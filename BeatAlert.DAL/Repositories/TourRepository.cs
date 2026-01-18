@@ -1,5 +1,6 @@
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Models;
+using BeatAlert.Logic.Services;
 using Microsoft.Data.SqlClient;
 
 namespace BeatAlert.DAL.Repositories;
@@ -15,164 +16,192 @@ public class TourRepository : ITourRepository
 
     public List<Tour> GetToursByArtistId(int artistId)
     {
-        var tours = new List<Tour>();
-
-        using (var connection = new SqlConnection(_connectionString))
+        try
         {
-            var query =
-                "SELECT tour_id, tour_name, promo_image, description, artist_id FROM Tour WHERE artist_id = @artistId";
+            var tours = new List<Tour>();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var connection = new SqlConnection(_connectionString))
             {
-                command.Parameters.AddWithValue("@artistId", artistId);
+                var query =
+                    "SELECT tour_id, tour_name, promo_image, description, artist_id FROM Tour WHERE artist_id = @artistId";
 
-                connection.Open();
-
-                using (var reader = command.ExecuteReader())
+                using (var command = new SqlCommand(query, connection))
                 {
-                    while (reader.Read())
+                    command.Parameters.AddWithValue("@artistId", artistId);
+
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        var tour = new Tour
+                        while (reader.Read())
                         {
-                            TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
-                            Name = reader.GetString(reader.GetOrdinal("tour_name")),
-                            PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
-                                ? "/images/default-tour.jpg"
-                                : reader.GetString(reader.GetOrdinal("promo_image")),
-                            Description = reader.IsDBNull(reader.GetOrdinal("description"))
-                                ? "No description available."
-                                : reader.GetString(reader.GetOrdinal("description")),
-                            ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
+                            var tour = new Tour
+                            {
+                                TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
+                                Name = reader.GetString(reader.GetOrdinal("tour_name")),
+                                PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
+                                    ? "/images/default-tour.jpg"
+                                    : reader.GetString(reader.GetOrdinal("promo_image")),
+                                Description = reader.IsDBNull(reader.GetOrdinal("description"))
+                                    ? "No description available."
+                                    : reader.GetString(reader.GetOrdinal("description")),
+                                ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
 
+                                Shows = new List<Show>(),
+                                Artist = null
+                            };
 
-                            Shows = new List<Show>(),
-                            Artist = null
-                        };
-
-                        tours.Add(tour);
+                            tours.Add(tour);
+                        }
                     }
                 }
-
             }
 
+            return tours;
         }
-
-        return tours;
+        catch (SqlException ex)
+        {
+            throw new DataAccessException($"Database error while retrieving tours for artistId={artistId}.", ex);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new DataAccessException($"Database operation error while retrieving tours for artistId={artistId}.", ex);
+        }
     }
 
     public Tour? GetTourById(int id)
-{
-    using (var connection = new SqlConnection(_connectionString))
     {
-        var query = @"
-        -- 1) Tour
-        SELECT tour_id, tour_name, promo_image, description, artist_id
-        FROM Tour
-        WHERE tour_id = @id;
-
-        -- 2) Shows
-        SELECT show_id, start_datetime, venue_name, city, country
-        FROM Show
-        WHERE tour_id = @id;
-        ";
-
-        using (var command = new SqlCommand(query, connection))
+        try
         {
-            command.Parameters.AddWithValue("@id", id);
-            connection.Open();
-
-            using (var reader = command.ExecuteReader())
+            using (var connection = new SqlConnection(_connectionString))
             {
-                Tour? tour = null;
+                var query = @"
+                    -- 1) Tour
+                    SELECT tour_id, tour_name, promo_image, description, artist_id
+                    FROM Tour
+                    WHERE tour_id = @id;
 
-                if (reader.Read())
+                    -- 2) Shows
+                    SELECT show_id, start_datetime, venue_name, city, country
+                    FROM Show
+                    WHERE tour_id = @id;
+                ";
+
+                using (var command = new SqlCommand(query, connection))
                 {
-                    tour = new Tour
+                    command.Parameters.AddWithValue("@id", id);
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
-                        Name = reader.GetString(reader.GetOrdinal("tour_name")),
-                        PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
-                            ? "/images/default-tour.jpg"
-                            : reader.GetString(reader.GetOrdinal("promo_image")),
-                        Description = reader.IsDBNull(reader.GetOrdinal("description"))
-                            ? "No description available."
-                            : reader.GetString(reader.GetOrdinal("description")),
-                        ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
-                        Shows = new List<Show>(),
-                        Artist = null
-                    };
-                }
-                else
-                {
-                    return null;
-                }
-                
-                reader.NextResult();
+                        Tour? tour = null;
 
-                while (reader.Read())
-                {
-                    tour.Shows.Add(new Show
-                    {
-                        ShowId = reader.GetInt32(reader.GetOrdinal("show_id")),
-                        StartDateTime = reader.GetDateTime(reader.GetOrdinal("start_datetime")),
-                        VenueName = reader.GetString(reader.GetOrdinal("venue_name")),
-                        City = reader.GetString(reader.GetOrdinal("city")),
-                        Country = reader.GetString(reader.GetOrdinal("country")),
-                        Tour = null,
-                        Venue = null
-                    });
-                }
+                        if (reader.Read())
+                        {
+                            tour = new Tour
+                            {
+                                TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
+                                Name = reader.GetString(reader.GetOrdinal("tour_name")),
+                                PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
+                                    ? "/images/default-tour.jpg"
+                                    : reader.GetString(reader.GetOrdinal("promo_image")),
+                                Description = reader.IsDBNull(reader.GetOrdinal("description"))
+                                    ? "No description available."
+                                    : reader.GetString(reader.GetOrdinal("description")),
+                                ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
+                                Shows = new List<Show>(),
+                                Artist = null
+                            };
+                        }
+                        else
+                        {
+                            return null;
+                        }
 
-                return tour;
+                        reader.NextResult();
+
+                        while (reader.Read())
+                        {
+                            tour.Shows.Add(new Show
+                            {
+                                ShowId = reader.GetInt32(reader.GetOrdinal("show_id")),
+                                StartDateTime = reader.GetDateTime(reader.GetOrdinal("start_datetime")),
+                                VenueName = reader.GetString(reader.GetOrdinal("venue_name")),
+                                City = reader.GetString(reader.GetOrdinal("city")),
+                                Country = reader.GetString(reader.GetOrdinal("country")),
+                                Tour = null,
+                                Venue = null
+                            });
+                        }
+
+                        return tour;
+                    }
+                }
             }
         }
+        catch (SqlException ex)
+        {
+            throw new DataAccessException($"Database error while retrieving tour with id={id}.", ex);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new DataAccessException($"Database operation error while retrieving tour with id={id}.", ex);
+        }
     }
-}
 
-    
     public List<Tour> SearchToursByName(string queryText)
     {
-        var tours = new List<Tour>();
-
-        using (var connection = new SqlConnection(_connectionString))
+        try
         {
-            var query = @"
+            var tours = new List<Tour>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
                          SELECT tour_id, tour_name, promo_image, description, artist_id 
                          FROM Tour
                          WHERE LOWER(tour_name) LIKE '%' + LOWER(@query) + '%'";
 
-            using (var command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@query", queryText);
-
-                connection.Open();
-
-                using (var reader = command.ExecuteReader())
+                using (var command = new SqlCommand(query, connection))
                 {
-                    while (reader.Read())
+                    command.Parameters.AddWithValue("@query", queryText);
+
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        var tour = new Tour
+                        while (reader.Read())
                         {
-                            TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
-                            Name = reader.GetString(reader.GetOrdinal("tour_name")),
-                            PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
-                                ? "/images/default-tour.jpg"
-                                : reader.GetString(reader.GetOrdinal("promo_image")),
-                            Description = reader.IsDBNull(reader.GetOrdinal("description"))
-                                ? "No description available."
-                                : reader.GetString(reader.GetOrdinal("description")),
-                            ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
-                            Shows = new List<Show>(),
-                            Artist = null
-                        };
+                            var tour = new Tour
+                            {
+                                TourId = reader.GetInt32(reader.GetOrdinal("tour_id")),
+                                Name = reader.GetString(reader.GetOrdinal("tour_name")),
+                                PromoPic = reader.IsDBNull(reader.GetOrdinal("promo_image"))
+                                    ? "/images/default-tour.jpg"
+                                    : reader.GetString(reader.GetOrdinal("promo_image")),
+                                Description = reader.IsDBNull(reader.GetOrdinal("description"))
+                                    ? "No description available."
+                                    : reader.GetString(reader.GetOrdinal("description")),
+                                ArtistId = reader.GetInt32(reader.GetOrdinal("artist_id")),
+                                Shows = new List<Show>(),
+                                Artist = null
+                            };
 
-                        tours.Add(tour);
+                            tours.Add(tour);
+                        }
+
+                        return tours;
                     }
-
-                    return tours;
                 }
             }
         }
-
+        catch (SqlException ex)
+        {
+            throw new DataAccessException("Database error while searching tours by name.", ex);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new DataAccessException("Database operation error while searching tours by name.", ex);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Models;
+using BeatAlert.Logic.Services;
 using Microsoft.Data.SqlClient;
 
 namespace BeatAlert.DAL.Repositories;
@@ -16,133 +17,155 @@ public class SongRepository : ISongRepository
     // Get all songs
     public List<Song> GetAllSongs()
     {
-        var songs = new List<Song>();
-
-        using (var connection = new SqlConnection(_connectionString))
+        try
         {
-            var query = "SELECT song_id, title, duration, release_date, lyrics, album_id FROM Song";
+            var songs = new List<Song>();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                var query = "SELECT song_id, title, duration, release_date, lyrics, album_id FROM Song";
 
-                using (var reader = command.ExecuteReader())
+                using (var command = new SqlCommand(query, connection))
                 {
-                    while (reader.Read())
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        var song = new Song()
+                        while (reader.Read())
                         {
-                            SongId = reader.GetInt32(reader.GetOrdinal("song_id")),
-                            Title = reader.GetString(reader.GetOrdinal("title")),
-                            DurationSeconds = reader.GetInt32(reader.GetOrdinal("duration")),
+                            var song = new Song()
+                            {
+                                SongId = reader.GetInt32(reader.GetOrdinal("song_id")),
+                                Title = reader.GetString(reader.GetOrdinal("title")),
+                                DurationSeconds = reader.GetInt32(reader.GetOrdinal("duration")),
+                                ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                                    ? null
+                                    : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
+                                Lyrics = reader.IsDBNull(reader.GetOrdinal("lyrics"))
+                                    ? ""
+                                    : reader.GetString(reader.GetOrdinal("lyrics")),
+                                AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
+                                Artists = new List<Artist>()
+                            };
 
-                            ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
-                                ? null
-                                : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
-
-                            Lyrics = reader.IsDBNull(reader.GetOrdinal("lyrics"))
-                                ? ""
-                                : reader.GetString(reader.GetOrdinal("lyrics")),
-
-                            AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
-
-
-                            Artists = new List<Artist>()
-                        };
-
-                        songs.Add(song);
+                            songs.Add(song);
+                        }
                     }
                 }
             }
-        }
 
-        return songs;
+            return songs;
+        }
+        catch (SqlException ex)
+        {
+            throw new DataAccessException("Database error while retrieving all songs.", ex);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new DataAccessException("Database operation error while retrieving all songs.", ex);
+        }
     }
 
     // Get song by Id
     public Song GetSongById(int id)
     {
-        using (var connection = new SqlConnection(_connectionString))
+        try
         {
-            var query = "SELECT song_id, title, duration, release_date, lyrics, album_id FROM Song WHERE song_id = @Id";
-
-            using (var command = new SqlCommand(query, connection))
+            using (var connection = new SqlConnection(_connectionString))
             {
-                command.Parameters.AddWithValue("@Id", id);
-                connection.Open();
+                var query = "SELECT song_id, title, duration, release_date, lyrics, album_id FROM Song WHERE song_id = @Id";
 
-                using (var reader = command.ExecuteReader())
+                using (var command = new SqlCommand(query, connection))
                 {
-                    if (reader.Read())
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        return new Song
+                        if (reader.Read())
                         {
-                            SongId = reader.GetInt32(reader.GetOrdinal("song_id")),
-                            Title = reader.GetString(reader.GetOrdinal("title")),
-                            DurationSeconds = reader.GetInt32(reader.GetOrdinal("duration")),
-
-                            ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
-                                ? null
-                                : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
-
-                            Lyrics = reader.IsDBNull(reader.GetOrdinal("lyrics"))
-                                ? ""
-                                : reader.GetString(reader.GetOrdinal("lyrics")),
-
-                            AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
-                            Artists = new List<Artist>()
-                        };
+                            return new Song
+                            {
+                                SongId = reader.GetInt32(reader.GetOrdinal("song_id")),
+                                Title = reader.GetString(reader.GetOrdinal("title")),
+                                DurationSeconds = reader.GetInt32(reader.GetOrdinal("duration")),
+                                ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                                    ? null
+                                    : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
+                                Lyrics = reader.IsDBNull(reader.GetOrdinal("lyrics"))
+                                    ? ""
+                                    : reader.GetString(reader.GetOrdinal("lyrics")),
+                                AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
+                                Artists = new List<Artist>()
+                            };
+                        }
                     }
                 }
             }
-        }
 
-        return null;
+            return null;
+        }
+        catch (SqlException ex)
+        {
+            throw new DataAccessException($"Database error while retrieving song with id={id}.", ex);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new DataAccessException($"Database operation error while retrieving song with id={id}.", ex);
+        }
     }
 
     // Search song by title
     public List<Song> SearchSong(string queryText)
     {
-        var songs = new List<Song>();
-
-        using (var connection = new SqlConnection(_connectionString))
+        try
         {
-            var query = "SELECT song_id, title, duration, release_date, lyrics, album_id FROM Song WHERE LOWER(title) LIKE '%' + LOWER(@query) + '%'";
+            var songs = new List<Song>();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var connection = new SqlConnection(_connectionString))
             {
-                command.Parameters.AddWithValue("@query", queryText);
-                connection.Open();
+                var query =
+                    "SELECT song_id, title, duration, release_date, lyrics, album_id FROM Song WHERE LOWER(title) LIKE '%' + LOWER(@query) + '%'";
 
-                using (var reader = command.ExecuteReader())
+                using (var command = new SqlCommand(query, connection))
                 {
-                    while (reader.Read())
+                    command.Parameters.AddWithValue("@query", queryText);
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        var song = new Song
+                        while (reader.Read())
                         {
-                            SongId = reader.GetInt32(reader.GetOrdinal("song_id")),
-                            Title = reader.GetString(reader.GetOrdinal("title")),
-                            DurationSeconds = reader.GetInt32(reader.GetOrdinal("duration")),
+                            var song = new Song
+                            {
+                                SongId = reader.GetInt32(reader.GetOrdinal("song_id")),
+                                Title = reader.GetString(reader.GetOrdinal("title")),
+                                DurationSeconds = reader.GetInt32(reader.GetOrdinal("duration")),
+                                ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
+                                    ? null
+                                    : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
+                                Lyrics = reader.IsDBNull(reader.GetOrdinal("lyrics"))
+                                    ? ""
+                                    : reader.GetString(reader.GetOrdinal("lyrics")),
+                                AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
+                                Artists = new List<Artist>()
+                            };
 
-                            ReleaseDate = reader.IsDBNull(reader.GetOrdinal("release_date"))
-                                ? null
-                                : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("release_date"))),
-
-                            Lyrics = reader.IsDBNull(reader.GetOrdinal("lyrics"))
-                                ? ""
-                                : reader.GetString(reader.GetOrdinal("lyrics")),
-
-                            AlbumId = reader.GetInt32(reader.GetOrdinal("album_id")),
-
-                            Artists = new List<Artist>()
-                        };
-
-                        songs.Add(song);
+                            songs.Add(song);
+                        }
                     }
                 }
             }
-        }
 
-        return songs;
+            return songs;
+        }
+        catch (SqlException ex)
+        {
+            throw new DataAccessException("Database error while searching songs.", ex);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new DataAccessException("Database operation error while searching songs.", ex);
+        }
     }
 }

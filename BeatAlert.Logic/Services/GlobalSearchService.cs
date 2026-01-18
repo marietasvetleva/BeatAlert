@@ -1,5 +1,6 @@
 using BeatAlert.Logic.DTOs;
 using BeatAlert.Logic.Interfaces___Repositories;
+using BeatAlert.Logic.Interfaces___Service;
 using BeatAlert.Logic.Interfaces;
 using BeatAlert.Logic.Models;
 
@@ -7,32 +8,16 @@ namespace BeatAlert.Logic.Services;
 
 public class GlobalSearchService : IGlobalSearchService
 {
-    private readonly IArtistRepository _artistRepository;
-    private readonly IAlbumRepository _albumRepository;
-    private readonly IShowRepository _showRepository;
-    private readonly ISongRepository _songRepository;
-    private readonly ITourRepository _tourRepository;
+    private readonly IEnumerable<IGlobalSearchProvider> _providers;
 
-    public GlobalSearchService
-    (
-        IArtistRepository artistRepository,
-        IAlbumRepository albumRepository,
-        IShowRepository showRepository,
-        ISongRepository songRepository,
-        ITourRepository tourRepository
-    )
+    public GlobalSearchService(IEnumerable<IGlobalSearchProvider> providers)
     {
-        _artistRepository = artistRepository;
-        _albumRepository = albumRepository;
-        _showRepository = showRepository;
-        _songRepository = songRepository;
-        _tourRepository = tourRepository;
+        _providers = providers;
     }
-
 
     public GlobalSearchResultsDto Search(string? query)
     {
-         var normalized = (query ?? string.Empty).Trim();
+        var normalized = (query ?? string.Empty).Trim();
 
         var result = new GlobalSearchResultsDto
         {
@@ -40,79 +25,18 @@ public class GlobalSearchService : IGlobalSearchService
         };
 
         if (string.IsNullOrWhiteSpace(normalized))
-        {
             return result;
-        }
 
         try
         {
-            var artists = _artistRepository.SearchArtist(normalized);
-            var albums = _albumRepository.SearchAlbum(normalized);
-            var songs = _songRepository.SearchSong(normalized);
-            var tours = _tourRepository.SearchToursByName(normalized);
-
-            result.Artists = artists.Select(MapArtistToDto).ToList();
-            result.Albums = albums.Select(MapAlbumToDto).ToList();
-            result.Songs = songs.Select(MapSongToDto).ToList();
-            result.Tours = tours.Select(MapTourToDto).ToList();
+            foreach (IGlobalSearchProvider provider in _providers)
+                provider.AddResults(result, normalized);
 
             return result;
         }
-
-        catch (Exception exception)
+        catch (Exception ex)
         {
-            throw new ServiceException("Search is currently unavailable. Please try again later.", exception);
+            throw new ServiceException("Search is currently unavailable. Please try again later.", ex);
         }
-    }
-
-    private static ArtistSearchResultDto MapArtistToDto(Artist artist)
-    {
-        var imageUrl = string.IsNullOrWhiteSpace(artist.AvatarUrl)
-            ? "/images/placeholders/artist.png"
-            : artist.AvatarUrl;
-
-        return new ArtistSearchResultDto
-        {
-            ArtistId = artist.ArtistId,
-            StageName = artist.StageName,
-            AvatarUrl = imageUrl
-        };
-    }
-
-    private static AlbumSearchResultDto MapAlbumToDto(Album album)
-    {
-        var cover = string.IsNullOrWhiteSpace(album.CoverImage)
-            ? "/images/placeholders/album.png"
-            : album.CoverImage;
-
-        return new AlbumSearchResultDto
-        {
-            AlbumId = album.AlbumId,
-            Title = album.Title,
-            CoverImageUrl = cover
-        };
-    }
-
-    private static SongSearchResultDto MapSongToDto(Song song)
-    {
-        return new SongSearchResultDto
-        {
-            SongId = song.SongId,
-            Title = song.Title
-        };
-    }
-
-    private static TourSearchResultDto MapTourToDto(Tour tour)
-    {
-        var promo = string.IsNullOrWhiteSpace(tour.PromoPic)
-            ? "/images/placeholders/tour.png"
-            : tour.PromoPic;
-
-        return new TourSearchResultDto
-        {
-            TourId = tour.TourId,
-            TourName = tour.Name,
-            PromoImageUrl = promo
-        };
     }
 }

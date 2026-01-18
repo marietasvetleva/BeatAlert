@@ -8,5 +8,5 @@ public class MusicLoverDTO
     public string Username { get; set; }
     public string HomeCity { get; set; }
     public string Password { get; set; }
-    // public string AvatarUrl { get; set; }
+    
 }
